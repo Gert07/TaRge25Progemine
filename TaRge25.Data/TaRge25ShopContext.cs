@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TaRge25Shop.Core.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace TaRge25Shop.Data
@@ -11,5 +9,8 @@ namespace TaRge25Shop.Data
         //Entity Frameworki andmebaasi operatsioone
         public TaRge25ShopContext(DbContextOptions<TaRge25ShopContext> options) 
             : base(options) { }
+
+        //vaja lisada dbSet, mis on seotud meie domain klassiga Spaceship
+        public DbSet<Spaceship> Spaceships { get; set; }
     }
 }

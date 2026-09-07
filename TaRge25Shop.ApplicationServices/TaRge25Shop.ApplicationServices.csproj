@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\TaRge25.Data\TaRge25Shop.Data.csproj" />
+    <ProjectReference Include="..\TaRge25Shop.Core\TaRge25Shop.Core.csproj" />
   </ItemGroup>
 
 </Project>
