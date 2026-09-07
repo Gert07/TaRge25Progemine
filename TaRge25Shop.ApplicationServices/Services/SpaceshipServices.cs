@@ -1,16 +1,20 @@
-﻿using TaRge25Shop.Core.Domain;
+﻿using TaRge25Shop.Core.ServiceInterface;
+using TaRge25Shop.Core.Domain;
 using TaRge25Shop.Core.Dto;
 using TaRge25Shop.Data;
 
 namespace TaRge25Shop.ApplicationServices.Services
 {
-    public class SpaceshipServices
+    public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TaRge25ShopContext _context;
         public SpaceshipServices(TaRge25ShopContext context)
         {
             _context = context;
         }
+        //see meetod on vaja controlleris esile kutsuda
+        //peab lisama interface, et kutsuda see meetod välja
+
         public async Task<Spaceship>Create(SpaceshipDto dto)
         {
             //siin peab tegema vahe instansi dto ja domaini vahel, et saaks domaini salvestada andmebaasi
