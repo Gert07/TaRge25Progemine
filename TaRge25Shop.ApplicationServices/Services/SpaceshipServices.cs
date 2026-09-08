@@ -20,13 +20,13 @@ namespace TaRge25Shop.ApplicationServices.Services
             //siin peab tegema vahe instansi dto ja domaini vahel, et saaks domaini salvestada andmebaasi
             Spaceship spaceship = new Spaceship
             {
-                Id = dto.Id,
+                Id = Guid.NewGuid(),
                 Name = dto.Name,
                 ShipType = dto.ShipType,
                 Crew = dto.Crew,
                 EnginePower = dto.EnginePower,
-                CreatedAt = dto.CreatedAt,
-                UpdatedAt = dto.UpdatedAt
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
             //Andmete salvestamine andmebaasi (näiteks Entity Frameworki abil)
             await _context.Spaceships.AddAsync(spaceship);

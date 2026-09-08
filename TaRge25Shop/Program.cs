@@ -1,3 +1,9 @@
+using TaRge25Shop.Core.ServiceInterface;
+using TaRge25Shop.ApplicationServices.Services;
+using TaRge25Shop.Data;
+using Microsoft.EntityFrameworkCore;
+
+
 namespace TaRge25Shop
 {
     public class Program
@@ -8,6 +14,9 @@ namespace TaRge25Shop
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<TaRge25ShopContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
 
             var app = builder.Build();
 
