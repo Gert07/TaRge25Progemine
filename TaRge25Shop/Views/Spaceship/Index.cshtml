@@ -2,3 +2,28 @@
 <div>
     <a asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-primary">Create Spaceship</a>
 </div>
+<div>
+    <h1>SpaceShips</h1>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Build Date</th>
+                <th>Crew</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${Spaceship.Id}</td>
+                <td>${Spaceship.Name}</td>
+                <td>${Spaceship.ShipType}</td>
+                <td>${Spaceship.CreatedAt}</td>
+                <td>${Spaceship.Crew}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
