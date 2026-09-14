@@ -2,13 +2,17 @@
 using TaRge25Shop.Core.Domain;
 using TaRge25Shop.Core.Dto;
 using TaRge25Shop.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaRge25Shop.ApplicationServices.Services
 {
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TaRge25ShopContext _context;
-        public SpaceshipServices(TaRge25ShopContext context)
+        public SpaceshipServices
+            (
+                TaRge25ShopContext context
+            )
         {
             _context = context;
         }
@@ -31,6 +35,34 @@ namespace TaRge25Shop.ApplicationServices.Services
             //Andmete salvestamine andmebaasi (näiteks Entity Frameworki abil)
             await _context.Spaceships.AddAsync(spaceship);
             await _context.SaveChangesAsync();
+
+            return spaceship;
+        }
+
+        //Teha update meetod, mis võtab vastu dto ja uuendab olemasolevat kosmoselaeva
+        public async Task<Spaceship>Update(SpaceshipDto dto)
+        {
+            Spaceship spaceship = new Spaceship
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                ShipType = dto.ShipType,
+                Crew = dto.Crew,
+                EnginePower = dto.EnginePower,
+                CreatedAt = dto.CreatedAt,
+                UpdatedAt = DateTime.Now
+            };
+            
+            _context.Spaceships.Update(spaceship);
+            await _context.SaveChangesAsync();
+
+            return spaceship;
+        }
+
+        public async Task<Spaceship>DetailAsync(Guid id)
+        {
+            var spaceship = await _context.Spaceships
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             return spaceship;
         }
