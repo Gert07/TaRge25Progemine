@@ -2,21 +2,42 @@
 using TaRge25Shop.Core.Dto;
 using TaRge25Shop.Models.Spaceship;
 using TaRge25Shop.Core.ServiceInterface;
+using TaRge25Shop.Data;
 
 namespace TaRge25Shop.Controllers
 {
     public class SpaceshipController : Controller
     {
         private readonly ISpaceshipServices _spaceshipServices;
+        private readonly TaRge25ShopContext _context;
 
-        public SpaceshipController(ISpaceshipServices spaceshipServices)
+        public SpaceshipController
+            (
+                ISpaceshipServices spaceshipServices,
+                TaRge25ShopContext context
+            )
         {
             _spaceshipServices = spaceshipServices;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            
+            var result = _context.Spaceships
+                .Select(x => new SpaceshipIndexViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ShipType = x.ShipType,
+                    CreatedAt = x.CreatedAt,
+                    Crew = x.Crew
+                });
+            //Kutsume teenuse välja, et saada kõik kosmoselaevad
+            //See on asünkroonne tegevus ja kasutame await.
+            //constructoris tuleb välja kutsuda DbContext, et saaksime andmed kätte.
+            //Seejärel kutsume andmed välja
+            return View(result);
         }
         [HttpGet]
         public IActionResult Create()

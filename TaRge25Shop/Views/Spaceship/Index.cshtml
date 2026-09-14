@@ -1,40 +1,42 @@
 ﻿@model IEnumerable<TaRge25Shop.Models.Spaceship.SpaceshipIndexViewModel>
-
+@{
+    int rowNumber = 1;
+}
 <div>
     <a asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-primary">Create Spaceship</a>
 </div>
 <div class="h1">
     <h1>SpaceShips</h1>
 </div>
-<div>
-<form method="get">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Nr</th>
-                <th scope="col">Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Build Date</th>
-                <th scope="col">Crew</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var spaceship in Model)
+
+    <form method="get">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nr</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Build Date</th>
+                    <th scope="col">Crew</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var spaceship in Model)
                     {
                         <tr>
-                            <td>@spaceship.Id</td>
+                            <td>@(rowNumber++)</td>
                             <td>@spaceship.Name</td>
                             <td>@spaceship.ShipType</td>
                             <td>@spaceship.CreatedAt</td>
                             <td>@spaceship.Crew</td>
                             <td>
+                                <a asp-action="Details" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Update</a>
                                 <a asp-action="Update" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Update</a>
                                 <a asp-action="Delete" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                             </td>
                         </tr>
                     }
-        </tbody>
-    </table>
-</form>
-</div>
+            </tbody>
+        </table>
+    </form>
