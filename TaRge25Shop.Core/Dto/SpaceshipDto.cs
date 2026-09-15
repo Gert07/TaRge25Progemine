@@ -4,7 +4,7 @@ namespace TaRge25Shop.Core.Dto
 {
     public class SpaceshipDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string ShipType { get; set; } = string.Empty;
         public int Crew { get; set; }

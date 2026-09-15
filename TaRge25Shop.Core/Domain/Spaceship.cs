@@ -6,7 +6,7 @@ namespace TaRge25Shop.Core.Domain
 {
     public class Spaceship
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string ShipType { get; set; } = string.Empty;
         public int Crew { get; set; }

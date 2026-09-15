@@ -1,8 +1,20 @@
-﻿@model TaRge25Shop.Models.Spaceship.SpaceshipCreateViewModel
+﻿@model TaRge25Shop.Models.Spaceship.SpaceshipCreateUpdateViewModel
 
-<div>
-    Spaceship Create
-</div>
+@if (Model.Id.HasValue)
+{
+    <h1>
+        Update
+    </h1>
+}
+else
+{
+    <h1>
+        Create
+    </h1>
+}
+
+
+
 <form method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
     <input asp-for="CreatedAt" type="hidden" />
@@ -33,6 +45,15 @@
         </div>
     </div>
 
-    <input asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-primary" value="Create Spaceship" />
+    @if (Model.Id.HasValue)
+    {
+        <input asp-action="Update" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Update Spaceship" />
+    }
+    else
+    {
+        <input asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Create Spaceship" />
+    }
+
+    
     <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Back to list</a>
 </form>
