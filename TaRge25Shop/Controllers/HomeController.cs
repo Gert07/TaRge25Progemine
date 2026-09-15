@@ -21,5 +21,6 @@ namespace TaRge25Shop.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        testing
     }
 }
