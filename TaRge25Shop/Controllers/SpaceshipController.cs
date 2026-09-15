@@ -66,6 +66,8 @@ namespace TaRge25Shop.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Update(Guid id)
         {
@@ -88,6 +90,7 @@ namespace TaRge25Shop.Controllers
 
             return View(vm);
         }
+
         [HttpPost]
         public async Task<IActionResult> Update(SpaceshipUpdateViewModel vm)
         {
@@ -109,10 +112,68 @@ namespace TaRge25Shop.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        [HttpDelete]
+
+
+        [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return View();
+            var spaceship = await _spaceshipServices.DetailAsync(id);
+
+            if (spaceship == null)
+            {
+                return NotFound();
+            }
+
+            //tuleb teha vaheinstants dto ja vm vahel
+            var vm = new SpaceshipDeleteViewModel
+
+                {
+                    Id = spaceship.Id,
+                    Name = spaceship.Name,
+                    ShipType = spaceship.ShipType,
+                    CreatedAt = spaceship.CreatedAt,
+                    Crew = spaceship.Crew,
+                    EnginePower = spaceship.EnginePower,
+                    UpdatedAt = spaceship.UpdatedAt
+                };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var spaceship = await _spaceshipServices.Delete(id);
+            
+            if (spaceship == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        //thea detaili vaade
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var spaceship = await _spaceshipServices.DetailAsync(id);
+
+            if (spaceship == null)
+            {
+                return NotFound();
+            }
+            var vm = new SpaceshipDetailViewModel
+            {
+                Id = spaceship.Id,
+                Name = spaceship.Name,
+                ShipType = spaceship.ShipType,
+                Crew = spaceship.Crew,
+                EnginePower = spaceship.EnginePower,
+                CreatedAt = spaceship.CreatedAt,
+                UpdatedAt = spaceship.UpdatedAt
+            };
+
+            return View(vm);
         }
     }
 }
