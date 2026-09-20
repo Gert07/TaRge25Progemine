@@ -6,7 +6,7 @@ namespace TaRge25Shop.Core.Domain
 {
     public class Kindergarden
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string GroupName { get; set; } = string.Empty;
         public int ChildrenCount { get; set; }
         public string KindergardenName { get; set; } = string.Empty;

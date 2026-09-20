@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model TaRge25Shop.Models.Kindergarden.KindergardenDetailViewModel
+
+<div>
+    Kindergarden Details
+</div>
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="CreatedAt" type="hidden" />
+    <input asp-for="UpdatedAt" type="hidden" />
+
+    <div class="form-group row">
+        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Id" class="form-control-plaintext" diasbled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="GroupName" class="form-control-plaintext" diasbled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="ChildrenCount" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="TeacherName" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="KindergardenName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="KindergardenName" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="CreatedAt" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="UpdatedAt" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
+</form>
