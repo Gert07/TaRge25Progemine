@@ -45,6 +45,12 @@ else
         </div>
     </div>
 
+    @foreach (var images in Model.Image)
+        {
+            <partial name="Images" model="images" />
+            <input asp-action="removeImages" asp-controller="spaceships" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
+        }
+
     @if (Model.Id.HasValue)
     {
         <input asp-action="Update" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Update Spaceship" />

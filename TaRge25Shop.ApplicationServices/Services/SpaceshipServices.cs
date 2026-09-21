@@ -9,12 +9,15 @@ namespace TaRge25Shop.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TaRge25ShopContext _context;
+        private readonly IFileServices _fileServices;
         public SpaceshipServices
             (
-                TaRge25ShopContext context
+                TaRge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
         //see meetod on vaja controlleris esile kutsuda
         //peab lisama interface, et kutsuda see meetod välja
@@ -30,8 +33,10 @@ namespace TaRge25Shop.ApplicationServices.Services
                 Crew = dto.Crew,
                 EnginePower = dto.EnginePower,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
             };
+            _fileServices.FilesToApi(dto, spaceship);
+
             //Andmete salvestamine andmebaasi (näiteks Entity Frameworki abil)
             await _context.Spaceships.AddAsync(spaceship);
             await _context.SaveChangesAsync();

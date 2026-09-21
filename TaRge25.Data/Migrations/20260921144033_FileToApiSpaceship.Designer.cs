@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaRge25Shop.Data;
 
@@ -11,9 +12,11 @@ using TaRge25Shop.Data;
 namespace TaRge25Shop.Data.Migrations
 {
     [DbContext(typeof(TaRge25ShopContext))]
-    partial class TaRge25ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20260921144033_FileToApiSpaceship")]
+    partial class FileToApiSpaceship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

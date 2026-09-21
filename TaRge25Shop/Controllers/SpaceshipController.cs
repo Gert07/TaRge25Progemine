@@ -10,15 +10,18 @@ namespace TaRge25Shop.Controllers
     {
         private readonly ISpaceshipServices _spaceshipServices;
         private readonly TaRge25ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         public SpaceshipController
             (
                 ISpaceshipServices spaceshipServices,
-                TaRge25ShopContext context
+                TaRge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _spaceshipServices = spaceshipServices;
             _context = context;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -55,6 +58,14 @@ namespace TaRge25Shop.Controllers
                 ShipType = vm.ShipType,
                 Crew = vm.Crew,
                 EnginePower = vm.EnginePower,
+                Files = vm.Files,
+                FileToApiDtos = vm.Image
+                    .Select(x => new FileToApiDto
+                    {
+                        Id = x.ImageId,
+                        ExistingFilePath = x.FilePath,
+                        SpaceshipId = x.SpaceshipId
+                    }).ToArray()
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev
