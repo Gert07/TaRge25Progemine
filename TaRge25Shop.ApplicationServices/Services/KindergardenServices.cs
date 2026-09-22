@@ -46,7 +46,7 @@ namespace TaRge25Shop.ApplicationServices.Services
                 KindergardenName = dto.KindergardenName,
                 TeacherName = dto.TeacherName,
                 CreatedAt = dto.CreatedAt,
-                UpdatedAt = dto.UpdatedAt
+                UpdatedAt = DateTime.Now
             };
 
             _context.Kindergardens.Update(kindergarden);
