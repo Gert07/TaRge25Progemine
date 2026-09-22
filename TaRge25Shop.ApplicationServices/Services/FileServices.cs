@@ -40,7 +40,7 @@ namespace TaRge25Shop.ApplicationServices.Services
                     string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     //tuleb kaks ülevalpool olevat muutujat kombineerida üheks
-                    string filePath = Path.Combine(uploadsFolder + uniqueFileName);
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
