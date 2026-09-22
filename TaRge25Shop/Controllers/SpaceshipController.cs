@@ -3,6 +3,7 @@ using TaRge25Shop.Core.Dto;
 using TaRge25Shop.Models.Spaceship;
 using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaRge25Shop.Controllers
 {
@@ -138,17 +139,25 @@ namespace TaRge25Shop.Controllers
             }
 
             //tuleb teha vaheinstants dto ja vm vahel
-            var vm = new SpaceshipDeleteViewModel
-
+            var images = await _context.FileToApi
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new ImageViewModel
                 {
-                    Id = spaceship.Id,
-                    Name = spaceship.Name,
-                    ShipType = spaceship.ShipType,
-                    CreatedAt = spaceship.CreatedAt,
-                    Crew = spaceship.Crew,
-                    EnginePower = spaceship.EnginePower,
-                    UpdatedAt = spaceship.UpdatedAt
-                };
+                    FilePath = y.ExistingFilePath,
+                    ImageId = y.Id
+                }).ToArrayAsync();
+
+            var vm = new SpaceshipDetailViewModel();
+
+            vm.Id = spaceship.Id;
+            vm.Name = spaceship.Name;
+            vm.ShipType = spaceship.ShipType;
+            vm.Crew = spaceship.Crew;
+            vm.EnginePower = spaceship.EnginePower;
+            vm.CreatedAt = spaceship.CreatedAt;
+            vm.UpdatedAt = spaceship.UpdatedAt;
+            vm.Image.AddRange(images);
+
 
             return View(vm);
         }
@@ -175,16 +184,26 @@ namespace TaRge25Shop.Controllers
             {
                 return NotFound();
             }
-            var vm = new SpaceshipDetailViewModel
-            {
-                Id = spaceship.Id,
-                Name = spaceship.Name,
-                ShipType = spaceship.ShipType,
-                Crew = spaceship.Crew,
-                EnginePower = spaceship.EnginePower,
-                CreatedAt = spaceship.CreatedAt,
-                UpdatedAt = spaceship.UpdatedAt
-            };
+
+            var images = await _context.FileToApi
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new ImageViewModel
+                {
+                    FilePath = y.ExistingFilePath,
+                    ImageId = y.Id
+                }).ToArrayAsync();
+
+            var vm = new SpaceshipDetailViewModel();
+            
+            vm.Id = spaceship.Id;
+            vm.Name = spaceship.Name;
+            vm.ShipType = spaceship.ShipType;
+            vm.Crew = spaceship.Crew;
+            vm.EnginePower = spaceship.EnginePower;
+            vm.CreatedAt = spaceship.CreatedAt;
+            vm.UpdatedAt = spaceship.UpdatedAt;
+            vm.Image.AddRange(images);
+            
 
             return View(vm);
         }
