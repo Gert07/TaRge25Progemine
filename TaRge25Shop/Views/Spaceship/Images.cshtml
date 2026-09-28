@@ -1,10 +1,25 @@
 ﻿@model TaRge25Shop.Models.Spaceship.ImageViewModel
 
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Environment
+
 @{
-    var photoPaths = "~/multipleFileUpload/" + (Model.FilePath ?? "noimage.jpg");
+    var fileName = System.IO.Path.GetFileName(Model.FilePath);
+    var relativePath = "multipleFileUpload/" + fileName;
+
+    // Older uploads were saved directly in wwwroot with the folder name as a prefix.
+    if (!string.IsNullOrEmpty(fileName)
+        && !Environment.WebRootFileProvider.GetFileInfo(relativePath).Exists
+        && Environment.WebRootFileProvider.GetFileInfo("multipleFileUpload" + fileName).Exists)
+    {
+        relativePath = "multipleFileUpload" + fileName;
+    }
+
+    var photoPath = "~/" + string.Join("/", relativePath.Split('/').Select(Uri.EscapeDataString));
 }
 
-<div class="form-group row col-sm-4 offset-2">
-    <div>@Model.FilePath</div>
-    <img class="card-image-top" src="@photoPaths" asp-append-version="true"/>
-</div>
+@if (!string.IsNullOrEmpty(fileName))
+{
+    <div class="form-group row col-sm-4 offset-2">
+        <img class="card-image-top" src="@Url.Content(photoPath)" asp-append-version="true" alt="Spaceship image" />
+    </div>
+}

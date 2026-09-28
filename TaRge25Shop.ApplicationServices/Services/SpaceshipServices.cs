@@ -35,7 +35,7 @@ namespace TaRge25Shop.ApplicationServices.Services
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
-            _fileServices.FilesToApi(dto, spaceship);
+            await _fileServices.FilesToApi(dto, spaceship);
 
             //Andmete salvestamine andmebaasi (näiteks Entity Frameworki abil)
             await _context.Spaceships.AddAsync(spaceship);
@@ -58,6 +58,7 @@ namespace TaRge25Shop.ApplicationServices.Services
                 UpdatedAt = DateTime.Now
             };
             
+            await _fileServices.FilesToApi(dto, spaceship);
             _context.Spaceships.Update(spaceship);
             await _context.SaveChangesAsync();
 
@@ -72,10 +73,23 @@ namespace TaRge25Shop.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship>Delete(Guid id)
+        public async Task<Spaceship?>Delete(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            var images = await _context.FileToApi
+                .Where(x => x.SpaceshipId == id)
+                .ToListAsync();
+
+            await _fileServices.RemoveImagesFromApi(images
+                .Select(image => new FileToApiDto { Id = image.Id })
+                .ToArray());
 
             _context.Spaceships.Remove(result);
             await _context.SaveChangesAsync();

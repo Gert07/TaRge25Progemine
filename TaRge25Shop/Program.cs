@@ -30,6 +30,8 @@ namespace TaRge25Shop
             }
 
             app.UseHttpsRedirection();
+            // Uploaded images are created at runtime, outside the static asset manifest.
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
