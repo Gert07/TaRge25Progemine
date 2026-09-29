@@ -1,0 +1,64 @@
+﻿@model TaRge25Shop.Models.RealEstate.RealEstateCreateUpdateVM
+
+@if (Model.Id.HasValue)
+{
+    <h1>
+        Update
+    </h1>
+}
+else
+{
+    <h1>
+        Create
+    </h1>
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="CreatedAt" type="hidden" />
+    <input asp-for="ModifiedAt" type="hidden" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="Area" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Area" class="form-control" />
+            <span asp-validation-for="Area" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Location" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RoomNumber" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RoomNumber" class="form-control" />
+            <span asp-validation-for="RoomNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="BuildingType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="BuildingType" class="form-control" />
+            <span asp-validation-for="BuildingType" class="text-danger"></span>
+        </div>
+    </div>
+
+    @if (Model.Id.HasValue)
+    {
+        <input asp-action="Update" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Update RealEstate" />
+    }
+    else
+    {
+        <input asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Create RealEstate" />
+    }
+
+
+    <a asp-action="Index" asp-controller="RealEstate" class="btn btn-secondary">Back to list</a>
+</form>
+

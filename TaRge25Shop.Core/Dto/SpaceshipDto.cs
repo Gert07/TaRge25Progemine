@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace TaRge25Shop.Core.Dto
 {

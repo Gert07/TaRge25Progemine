@@ -1,0 +1,43 @@
+@model IEnumerable<TaRge25Shop.Models.RealEstate.RealEstateIndexVM>
+
+@{
+    int rowNumber = 1;
+}
+<div>
+    <a asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-primary">Create RealEstate</a>
+</div>
+<div class="h1">
+    <h1>RealEstate</h1>
+</div>
+
+<form method="get">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nr</th>
+                <th scope="col">Area</th>
+                <th scope="col">Location</th>
+                <th scope="col">Create Date</th>
+                <th scope="col">Building Type</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var realEstate in Model)
+            {
+                <tr>
+                    <td>@(rowNumber++)</td>
+                    <td>@realEstate.Area</td>
+                    <td>@realEstate.Location</td>
+                    <td>@realEstate.CreatedAt</td>
+                    <td>@realEstate.BuildingType</td>
+                    <td>
+                        <a asp-action="Details" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a asp-action="Update" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Update</a>
+                        <a asp-action="Delete" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
