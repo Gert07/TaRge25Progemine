@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaRge25Shop.Data;
+using Microsoft.EntityFrameworkCore;
 using TaRge25Shop.Core.Dto;
 using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.Models.RealEstate;
@@ -159,6 +160,34 @@ namespace TaRge25Shop.Controllers
             return View(vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetImage(Guid id)
+        {
+            var image = await _context.FileToDatabases
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (image?.ImageData == null)
+            {
+                return NotFound();
+            }
+
+            return File(image.ImageData, GetImageContentType(image.ImageTitle));
+        }
+
+        private static string GetImageContentType(string? fileName)
+        {
+            return Path.GetExtension(fileName)?.ToLowerInvariant() switch
+            {
+                ".png" => "image/png",
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".gif" => "image/gif",
+                ".webp" => "image/webp",
+                ".bmp" => "image/bmp",
+                _ => "application/octet-stream"
+            };
+        }
+
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
@@ -188,7 +217,17 @@ namespace TaRge25Shop.Controllers
                 RoomNumber = realEstate.RoomNumber,
                 BuildingType = realEstate.BuildingType,
                 CreatedAt = realEstate.CreatedAt,
-                ModifiedAt = realEstate.ModifiedAt
+                ModifiedAt = realEstate.ModifiedAt,
+                Images = await _context.FileToDatabases
+                    .AsNoTracking()
+                    .Where(x => x.RealEstateId == id && x.ImageData != null)
+                    .Select(x => new RealEstateImageVM
+                    {
+                        ImageId = x.Id,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId
+                    })
+                    .ToListAsync()
             };
 
             return View(vm);
