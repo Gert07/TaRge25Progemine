@@ -17,8 +17,7 @@ namespace TaRge25Shop
             builder.Services.AddDbContext<TaRge25ShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
-            builder.Services.AddScoped<IFileServices, FileServices>();
-            builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
+            builder.Services.AddScoped<IKindergardenServices, KindergardenServices>();
 
             var app = builder.Build();
 
@@ -31,8 +30,6 @@ namespace TaRge25Shop
             }
 
             app.UseHttpsRedirection();
-            // Uploaded images are created at runtime, outside the static asset manifest.
-            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
