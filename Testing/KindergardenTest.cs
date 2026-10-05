@@ -192,5 +192,49 @@ namespace TaRge25Shop.Testing
             Assert.NotNull(updatedKindergarden);
             Assert.Equal("Uus Grupp", updatedKindergarden.GroupName);
         }
+
+        [Fact]
+        // Ei tohiks uuendada lasteaia andmeid, kui Id ei eksisteeri.
+        public async Task ShouldNot_UpdateKindergarden_WhenIdDoesNotExist()
+        {
+            // Ülesseade
+            KindergardenDto dto = new KindergardenDto()
+            {
+                Id = Guid.NewGuid(),
+                GroupName = "Mesimummud",
+                ChildrenCount = 17,
+                TeacherName = "Kallas",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            // Tegutsemine
+            var result = await Svc<IKindergardenServices>().Update(dto);
+            // Kontroll
+            Assert.Null(result);
+        }
+
+        [Fact]
+        // Peaks kustutama lasteaia, kui Id eksisteerib.
+        public async Task Should_DeleteKindergarden_WhenIdExists()
+        {
+            // Ülesseade
+            KindergardenDto dto = new KindergardenDto()
+            {
+                GroupName = "Mesimummud",
+                ChildrenCount = 17,
+                TeacherName = "Kallas",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+            };
+            var createdKindergarden = await Svc<IKindergardenServices>().Create(dto);
+            Assert.NotNull(createdKindergarden);
+            // Tegutsemine
+            var kindergardenId = Assert.IsType<Guid>(createdKindergarden.Id);
+            var result = await Svc<IKindergardenServices>().Delete(kindergardenId);
+            // Kontroll
+            Assert.NotNull(result);
+            Assert.Equal(kindergardenId, result.Id);
+            Assert.Null(await Svc<IKindergardenServices>().DetailAsync(kindergardenId));
+        }
     }
 }
