@@ -114,5 +114,30 @@ namespace TaRge25Shop.ApplicationServices.Services
                 }
             }
         }
+
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            //toimub kontroll, kas on faile või ei ole
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreachi, et mitu faili üles laadida
+                foreach (var file in dto.Files)
+                {
+                    // Failide üleslaadimise logika
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            RealEstateId = domain.Id
+                        };
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+                        _context.FileToDatabases.Add(files);
+                    }
+                }
+            }
+        }
     }
 }

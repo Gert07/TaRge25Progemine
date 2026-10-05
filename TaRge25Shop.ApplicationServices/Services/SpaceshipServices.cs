@@ -65,7 +65,7 @@ namespace TaRge25Shop.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship>DetailAsync(Guid id)
+        public async Task<Spaceship?>DetailAsync(Guid id)
         {
             var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);

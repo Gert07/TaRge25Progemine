@@ -9,5 +9,6 @@ namespace TaRge25Shop.Core.ServiceInterface
         Task FilesToApi(SpaceshipDto dto, Spaceship domain);
         Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dtos);
         Task<FileToApi?> RemoveImageFromApi(FileToApiDto dto);
+        void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain);
     }
 }

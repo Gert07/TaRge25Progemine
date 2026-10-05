@@ -56,7 +56,16 @@ namespace TaRge25Shop.Controllers
                 Area = vm.Area,
                 Location = vm.Location,
                 RoomNumber = vm.RoomNumber,
-                BuildingType = vm.BuildingType
+                BuildingType = vm.BuildingType,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                {
+                    Id = x.ImageId,
+                    RealEstateId = x.RealEstateId,
+                    ImageTitle = x.ImageTitle,
+                    ImageData = x.ImageData
+                }).ToArray()
             };
 
             var result = await _realEstateServices.Create(dto);
@@ -112,7 +121,8 @@ namespace TaRge25Shop.Controllers
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
                 CreatedAt = vm.CreatedAt,
-                ModifiedAt = vm.ModifiedAt
+                ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files
             };
 
             var result = await _realEstateServices.Update(dto);

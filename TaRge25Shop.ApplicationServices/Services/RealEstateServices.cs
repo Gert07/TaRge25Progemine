@@ -9,13 +9,16 @@ namespace TaRge25Shop.ApplicationServices.Services
     public class RealEstateServices : IRealEstateServices
     {
         private readonly TaRge25ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         public RealEstateServices
             (
-                TaRge25ShopContext context
+                TaRge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         public async Task<RealEstate> Create(RealEstateDto dto)
@@ -31,13 +34,18 @@ namespace TaRge25Shop.ApplicationServices.Services
                 ModifiedAt = DateTime.Now
             };
 
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                _fileServices.UploadFilesToDatabase(dto, realEstate);
+            }
+
             await _context.RealEstates.AddAsync(realEstate);
             await _context.SaveChangesAsync();
 
             return realEstate;
         }
 
-        public async Task<RealEstate> Update(RealEstateDto dto)
+        public async Task<RealEstate?> Update(RealEstateDto dto)
         {
             RealEstate realEstate = new RealEstate
             {
@@ -49,6 +57,11 @@ namespace TaRge25Shop.ApplicationServices.Services
                 CreatedAt = dto.CreatedAt,
                 ModifiedAt = DateTime.Now
             };
+
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                _fileServices.UploadFilesToDatabase(dto, realEstate);
+            }
 
             _context.RealEstates.Update(realEstate);
             await _context.SaveChangesAsync();
