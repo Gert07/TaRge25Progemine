@@ -14,5 +14,9 @@ namespace TaRge25Shop.Data
         public DbSet<Spaceship> Spaceships { get; set; }
 
         public DbSet<Kindergarden> Kindergardens { get; set; }
+
+        public DbSet<RealEstate> RealEstates { get; set; }
+
+        public DbSet<FileToApi> FileToApi { get; set; }
     }
 }

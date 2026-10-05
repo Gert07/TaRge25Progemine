@@ -55,7 +55,7 @@ namespace TaRge25Shop.ApplicationServices.Services
             return kindergarden;
         }
 
-        public async Task<Kindergarden>DetailAsync(Guid id)
+        public async Task<Kindergarden?> DetailAsync(Guid id)
         {
             var kindergarden = await _context.Kindergardens
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -63,10 +63,15 @@ namespace TaRge25Shop.ApplicationServices.Services
             return kindergarden;
         }
 
-        public async Task<Kindergarden>Delete(Guid id)
+        public async Task<Kindergarden?> Delete(Guid id)
         {
             var result = await _context.Kindergardens
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null)
+            {
+                return null;
+            }
 
             _context.Kindergardens.Remove(result);
             await _context.SaveChangesAsync();

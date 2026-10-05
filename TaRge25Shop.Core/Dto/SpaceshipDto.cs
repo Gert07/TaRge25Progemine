@@ -12,7 +12,7 @@ namespace TaRge25Shop.Core.Dto
         public string ShipType { get; set; } = string.Empty;
         public int Crew { get; set; }
         public int EnginePower { get; set; }
-        public List<IFormFile> Files { get; set; }
+        public List<IFormFile> Files { get; set; } = new();
         public IEnumerable<FileToApiDto> FileToApiDtos { get; set; }
             = new List<FileToApiDto>();
         public DateTime CreatedAt { get; set; }

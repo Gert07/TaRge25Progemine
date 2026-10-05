@@ -30,8 +30,8 @@ namespace TaRge25Shop.ApplicationServices.Services
                 Id = Guid.NewGuid(),
                 Name = dto.Name,
                 ShipType = dto.ShipType,
-                Crew = dto.Crew,
-                EnginePower = dto.EnginePower,
+                Crew = Math.Max(dto.Crew, 3),
+                EnginePower = Math.Max(dto.EnginePower, 1),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             };
@@ -52,8 +52,8 @@ namespace TaRge25Shop.ApplicationServices.Services
                 Id = dto.Id,
                 Name = dto.Name,
                 ShipType = dto.ShipType,
-                Crew = dto.Crew,
-                EnginePower = dto.EnginePower,
+                Crew = Math.Max(dto.Crew, 3),
+                EnginePower = Math.Max(dto.EnginePower, 1),
                 CreatedAt = dto.CreatedAt,
                 UpdatedAt = DateTime.Now
             };
@@ -65,7 +65,7 @@ namespace TaRge25Shop.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship>DetailAsync(Guid id)
+        public async Task<Spaceship?> DetailAsync(Guid id)
         {
             var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
