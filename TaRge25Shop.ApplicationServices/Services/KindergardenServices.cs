@@ -17,8 +17,13 @@ namespace TaRge25Shop.ApplicationServices.Services
             _context = context;
         }
 
-        public async Task<Kindergarden>Create(KindergardenDto dto)
+        public async Task<Kindergarden?> Create(KindergardenDto dto)
         {
+            if (!IsValid(dto))
+            {
+                return null;
+            }
+
             Kindergarden kindergarden = new Kindergarden
             {
                 Id = Guid.NewGuid(),
@@ -36,20 +41,27 @@ namespace TaRge25Shop.ApplicationServices.Services
             return kindergarden;
         }
 
-        public async Task<Kindergarden>Update(KindergardenDto dto)
+        public async Task<Kindergarden?> Update(KindergardenDto dto)
         {
-            Kindergarden kindergarden = new Kindergarden
+            if (dto.Id == null || !IsValid(dto))
             {
-                Id = dto.Id,
-                GroupName = dto.GroupName,
-                ChildrenCount = dto.ChildrenCount,
-                KindergardenName = dto.KindergardenName,
-                TeacherName = dto.TeacherName,
-                CreatedAt = dto.CreatedAt,
-                UpdatedAt = DateTime.Now
-            };
+                return null;
+            }
 
-            _context.Kindergardens.Update(kindergarden);
+            var kindergarden = await _context.Kindergardens
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+            if (kindergarden == null)
+            {
+                return null;
+            }
+
+            kindergarden.GroupName = dto.GroupName;
+            kindergarden.ChildrenCount = dto.ChildrenCount;
+            kindergarden.KindergardenName = dto.KindergardenName;
+            kindergarden.TeacherName = dto.TeacherName;
+            kindergarden.UpdatedAt = DateTime.Now;
+
             await _context.SaveChangesAsync();
 
             return kindergarden;
@@ -77,6 +89,14 @@ namespace TaRge25Shop.ApplicationServices.Services
             await _context.SaveChangesAsync();
 
             return result;
+        }
+
+        private static bool IsValid(KindergardenDto dto)
+        {
+            return dto.GroupName.Any(char.IsLetter)
+                && !string.IsNullOrWhiteSpace(dto.TeacherName)
+                && dto.ChildrenCount >= 0
+                && dto.ChildrenCount < 100;
         }
     }
 }

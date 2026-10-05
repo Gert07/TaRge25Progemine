@@ -30,6 +30,7 @@ namespace TaRge25Shop.Testing
         public virtual void SetupServices(ServiceCollection services)
         {
             services.AddScoped<ISpaceshipServices, SpaceshipServices>();
+            services.AddScoped<IKindergardenServices, KindergardenServices>();
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<IHostEnvironment, MockIHostEnvironment>();
 
