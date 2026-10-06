@@ -87,6 +87,11 @@ namespace TaRge25Shop.ApplicationServices.Services
                 return null;
             }
 
+            var images = await _context.FileToDatabases
+                .Where(x => x.RealEstateId == id)
+                .ToListAsync();
+
+            _context.FileToDatabases.RemoveRange(images);
             _context.RealEstates.Remove(result);
             await _context.SaveChangesAsync();
 

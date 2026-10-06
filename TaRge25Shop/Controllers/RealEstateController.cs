@@ -59,7 +59,7 @@ namespace TaRge25Shop.Controllers
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
                 Files = vm.Files,
-                Image = vm.Image
+                Image = vm.Images
                     .Select(x => new FileToDatabaseDto
                 {
                     Id = x.ImageId,
@@ -87,16 +87,29 @@ namespace TaRge25Shop.Controllers
             {
                 return NotFound();
             }
-            var vm = new RealEstateCreateUpdateVM
-            {
-                Id = realEstate.Id,
-                Area = realEstate.Area,
-                Location = realEstate.Location,
-                RoomNumber = realEstate.RoomNumber,
-                BuildingType = realEstate.BuildingType,
-                CreatedAt = realEstate.CreatedAt,
-                ModifiedAt = realEstate.ModifiedAt
-            };
+
+            RealEstateImageVM[] images = await _context.FileToDatabases
+                .AsNoTracking()
+                .Where(x => x.RealEstateId == id && x.ImageData != null)
+                .Select(x => new RealEstateImageVM
+                {
+                    ImageId = x.Id,
+                    ImageTitle = x.ImageTitle,
+                    RealEstateId = x.RealEstateId
+                })
+                .ToArrayAsync();
+
+            var vm = new RealEstateCreateUpdateVM();
+
+            vm.Id = realEstate.Id;
+            vm.Area = realEstate.Area;
+            vm.Location = realEstate.Location;
+            vm.RoomNumber = realEstate.RoomNumber;
+            vm.BuildingType = realEstate.BuildingType;
+            vm.CreatedAt = realEstate.CreatedAt;
+            vm.ModifiedAt = realEstate.ModifiedAt;
+            vm.Images.AddRange(images);
+
 
             return View("CreateUpdate", vm);
         }
@@ -154,7 +167,17 @@ namespace TaRge25Shop.Controllers
                 RoomNumber = realEstate.RoomNumber,
                 BuildingType = realEstate.BuildingType,
                 CreatedAt = realEstate.CreatedAt,
-                ModifiedAt = realEstate.ModifiedAt
+                ModifiedAt = realEstate.ModifiedAt,
+                Images = await _context.FileToDatabases
+                    .AsNoTracking()
+                    .Where(x => x.RealEstateId == id && x.ImageData != null)
+                    .Select(x => new RealEstateImageVM
+                    {
+                        ImageId = x.Id,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId
+                    })
+                    .ToListAsync()
             };
 
             return View(vm);
@@ -186,6 +209,27 @@ namespace TaRge25Shop.Controllers
                 ".bmp" => "image/bmp",
                 _ => "application/octet-stream"
             };
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveImage(Guid imageId)
+        {
+            var image = await _context.FileToDatabases.FindAsync(imageId);
+
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            var realEstateId = image.RealEstateId;
+
+            _context.FileToDatabases.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return realEstateId.HasValue
+                ? RedirectToAction(nameof(Update), new { id = realEstateId.Value })
+                : RedirectToAction(nameof(Index));
         }
 
         [HttpPost]

@@ -10,6 +10,6 @@
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public List<IFormFile> Files { get; set; } = new();
-        public List<RealEstateImageVM> Image { get; set; } = new List<RealEstateImageVM>();
+        public List<RealEstateImageVM> Images { get; set; } = new List<RealEstateImageVM>();
     }
 }
