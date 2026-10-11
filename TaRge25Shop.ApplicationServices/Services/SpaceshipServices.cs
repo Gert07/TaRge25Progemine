@@ -9,12 +9,15 @@ namespace TaRge25Shop.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TaRge25ShopContext _context;
+        private readonly IFileServices _fileServices;
         public SpaceshipServices
             (
-                TaRge25ShopContext context
+                TaRge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
         //see meetod on vaja controlleris esile kutsuda
         //peab lisama interface, et kutsuda see meetod välja
@@ -30,8 +33,10 @@ namespace TaRge25Shop.ApplicationServices.Services
                 Crew = dto.Crew,
                 EnginePower = dto.EnginePower,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
             };
+            await _fileServices.FilesToApi(dto, spaceship);
+
             //Andmete salvestamine andmebaasi (näiteks Entity Frameworki abil)
             await _context.Spaceships.AddAsync(spaceship);
             await _context.SaveChangesAsync();
@@ -53,13 +58,14 @@ namespace TaRge25Shop.ApplicationServices.Services
                 UpdatedAt = DateTime.Now
             };
             
+            await _fileServices.FilesToApi(dto, spaceship);
             _context.Spaceships.Update(spaceship);
             await _context.SaveChangesAsync();
 
             return spaceship;
         }
 
-        public async Task<Spaceship>DetailAsync(Guid id)
+        public async Task<Spaceship?>DetailAsync(Guid id)
         {
             var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -67,10 +73,23 @@ namespace TaRge25Shop.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship>Delete(Guid id)
+        public async Task<Spaceship?>Delete(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            var images = await _context.FileToApi
+                .Where(x => x.SpaceshipId == id)
+                .ToListAsync();
+
+            await _fileServices.RemoveImagesFromApi(images
+                .Select(image => new FileToApiDto { Id = image.Id })
+                .ToArray());
 
             _context.Spaceships.Remove(result);
             await _context.SaveChangesAsync();

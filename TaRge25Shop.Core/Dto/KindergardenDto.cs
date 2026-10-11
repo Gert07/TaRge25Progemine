@@ -1,9 +1,11 @@
-﻿
+using Microsoft.AspNetCore.Http;
+
 
 namespace TaRge25Shop.Core.Dto
 {
     public class KindergardenDto
     {
+        public List<IFormFile> Files { get; set; } = new();
         public Guid? Id { get; set; }
         public string GroupName { get; set; } = string.Empty;
         public int ChildrenCount { get; set; }

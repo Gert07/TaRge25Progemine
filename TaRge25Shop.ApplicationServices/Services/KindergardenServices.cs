@@ -1,25 +1,25 @@
-﻿using TaRge25Shop.Core.ServiceInterface;
+using Microsoft.EntityFrameworkCore;
 using TaRge25Shop.Core.Domain;
 using TaRge25Shop.Core.Dto;
+using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace TaRge25Shop.ApplicationServices.Services
 {
     public class KindergardenServices : IKindergardenServices
     {
         private readonly TaRge25ShopContext _context;
-        public KindergardenServices
-            (
-                TaRge25ShopContext context
-            )
+        private readonly IFileServices _fileServices;
+
+        public KindergardenServices(TaRge25ShopContext context, IFileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
-        public async Task<Kindergarden>Create(KindergardenDto dto)
+        public async Task<Kindergarden> Create(KindergardenDto dto)
         {
-            Kindergarden kindergarden = new Kindergarden
+            var kindergarden = new Kindergarden
             {
                 Id = Guid.NewGuid(),
                 GroupName = dto.GroupName,
@@ -30,48 +30,52 @@ namespace TaRge25Shop.ApplicationServices.Services
                 UpdatedAt = DateTime.Now
             };
 
+            _fileServices.UploadFilesToDatabase(dto, kindergarden);
             await _context.Kindergardens.AddAsync(kindergarden);
             await _context.SaveChangesAsync();
-
             return kindergarden;
         }
 
-        public async Task<Kindergarden>Update(KindergardenDto dto)
-        {
-            Kindergarden kindergarden = new Kindergarden
-            {
-                Id = dto.Id,
-                GroupName = dto.GroupName,
-                ChildrenCount = dto.ChildrenCount,
-                KindergardenName = dto.KindergardenName,
-                TeacherName = dto.TeacherName,
-                CreatedAt = dto.CreatedAt,
-                UpdatedAt = DateTime.Now
-            };
-
-            _context.Kindergardens.Update(kindergarden);
-            await _context.SaveChangesAsync();
-
-            return kindergarden;
-        }
-
-        public async Task<Kindergarden>DetailAsync(Guid id)
+        public async Task<Kindergarden?> Update(KindergardenDto dto)
         {
             var kindergarden = await _context.Kindergardens
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+            if (kindergarden == null)
+            {
+                return null;
+            }
 
+            kindergarden.GroupName = dto.GroupName;
+            kindergarden.ChildrenCount = dto.ChildrenCount;
+            kindergarden.KindergardenName = dto.KindergardenName;
+            kindergarden.TeacherName = dto.TeacherName;
+            kindergarden.UpdatedAt = DateTime.Now;
+
+            _fileServices.UploadFilesToDatabase(dto, kindergarden);
+            await _context.SaveChangesAsync();
             return kindergarden;
         }
 
-        public async Task<Kindergarden>Delete(Guid id)
+        public Task<Kindergarden?> DetailAsync(Guid id)
         {
-            var result = await _context.Kindergardens
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return _context.Kindergardens.FirstOrDefaultAsync(x => x.Id == id);
+        }
 
-            _context.Kindergardens.Remove(result);
+        public async Task<Kindergarden?> Delete(Guid id)
+        {
+            var kindergarden = await DetailAsync(id);
+            if (kindergarden == null)
+            {
+                return null;
+            }
+
+            var images = await _context.FileToDatabases
+                .Where(x => x.KindergardenId == id)
+                .ToListAsync();
+            _context.FileToDatabases.RemoveRange(images);
+            _context.Kindergardens.Remove(kindergarden);
             await _context.SaveChangesAsync();
-
-            return result;
+            return kindergarden;
         }
     }
 }

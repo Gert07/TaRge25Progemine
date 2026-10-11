@@ -1,7 +1,8 @@
-﻿namespace TaRge25Shop.Models.Kindergarden
+namespace TaRge25Shop.Models.Kindergarden
 {
     public class KindergardenDeleteViewModel
     {
+        public List<KindergardenImageViewModel> Images { get; set; } = new();
         public Guid? Id { get; set; }
         public string GroupName { get; set; } = string.Empty;
         public int ChildrenCount { get; set; }

@@ -1,4 +1,4 @@
-﻿@model TaRge25Shop.Models.Kindergarden.KindergardenDeleteViewModel
+@model TaRge25Shop.Models.Kindergarden.KindergardenDeleteViewModel
 
 <div>
     Kindergarden Delete
@@ -21,6 +21,12 @@
         </div>
     </div>
     <div class="form-group row">
+        <label asp-for="KindergardenName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="KindergardenName" class="form-control-plaintext" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
         <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input asp-for="ChildrenCount" class="form-control-plaintext" disabled />
@@ -30,12 +36,6 @@
         <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input asp-for="TeacherName" class="form-control-plaintext" disabled />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label asp-for="KindergardenName" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="KindergardenName" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
@@ -50,6 +50,22 @@
             <input asp-for="UpdatedAt" class="form-control-plaintext" disabled />
         </div>
     </div>
+
+    @if (Model.Images.Count > 0)
+    {
+        <div class="row mt-3 mb-3">
+            @foreach (var image in Model.Images)
+            {
+                <div class="col-md-4 mb-3">
+                    <img src="@Url.Action("GetImage", "Kindergarden", new { id = image.ImageId })"
+                         alt="@image.ImageTitle"
+                         class="img-fluid rounded"
+                         style="width: 100%; height: 250px; object-fit: cover;" />
+                </div>
+            }
+        </div>
+    }
+
     <input asp-action="DeleteConfirmation" asp-controller="Kindergarden" type="submit" class="btn btn-danger" value="Delete Kindergarden" />
     <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
 </form>

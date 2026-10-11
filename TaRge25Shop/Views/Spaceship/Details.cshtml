@@ -50,5 +50,11 @@
             <input asp-for="UpdatedAt" class="form-control-plaintext" disabled />
         </div>
     </div>
+
+    @foreach (var images in Model.Image)
+    {
+        <partial name="Images" model="images" />
+    }
+
     <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Back to list</a>
 </form>

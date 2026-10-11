@@ -10,5 +10,6 @@ namespace TaRge25Shop.Core.Domain
         public string? ImageTitle { get; set; }
         public byte[]? ImageData { get; set; }
         public Guid? KindergardenId { get; set; }
+        public Guid? RealEstateId { get; set; }
     }
 }
