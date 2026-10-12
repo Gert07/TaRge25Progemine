@@ -10,13 +10,14 @@ namespace TaRge25Shop.Testing
     public class KindergardenTest : TestBase
     {
         [Fact]
+        // Loob lasteaia, kui andmed on kehtivad
         public async Task Should_CreateKindergarden_WhenDataIsValid()
         {
             // Ülesseade
             var dto = MockKindergardenData();
             // Tegevus
             var result = await Svc<IKindergardenServices>().Create(dto);
-            // Kontroll: kontrollime ka tegelikult salvestatud andmeid.
+            // Kontroll: kontrollime ka tegelikult salvestatud andmeid
             Assert.NotNull(result);
             Assert.NotNull(result.Id);
             Assert.NotEqual(Guid.Empty, result.Id.Value);
@@ -30,6 +31,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks leida lasteaeda, kui ID on vale
         public async Task ShouldNot_GetKindergardenById_WhenDifferent()
         {
             var created = await CreateKindergarden();
@@ -40,6 +42,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks leidma lasteaia, kui ID on õige
         public async Task Should_GetKindergardenById_WhenIdIsEqual()
         {
             var created = await CreateKindergarden();
@@ -51,6 +54,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks kustutama lasteaia andmebaasist, kui see on kustutatud
         public async Task Should_RemoveKindergardenFromDatabase_WhenKindergardenIsDeleted()
         {
             var created = await CreateKindergarden();
@@ -63,6 +67,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks kustutada teist lasteaeda, kui üks on kustutatud
         public async Task ShouldNot_RemoveOtherKindergarden_WhenKindergardenIsDeleted()
         {
             var first = await CreateKindergarden();
@@ -79,6 +84,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks kustutada lasteaeda, kui ID ei ole olemas
         public async Task ShouldNot_DeleteKindergarden_WhenIdDoesNotExist()
         {
             var created = await CreateKindergarden();
@@ -89,11 +95,12 @@ namespace TaRge25Shop.Testing
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        // Peaks uuendama lasteaeda, kui andmed muutuvad
         public async Task Should_UpdateKindergarden_WhenDataChanges(bool clearTracker)
         {
             var created = await CreateKindergarden();
             var originalCreatedAt = created.CreatedAt;
-            // Kindel varasem aeg teeb UpdatedAt kontrolli sõltumatuks kella täpsusest.
+            
             created.UpdatedAt = DateTime.Today.AddDays(-1);
             await Svc<TaRge25ShopContext>().SaveChangesAsync();
             var originalUpdatedAt = created.UpdatedAt;
@@ -128,6 +135,7 @@ namespace TaRge25Shop.Testing
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        // Ei tohiks uuendada lasteaeda, kui ID puudub
         public async Task ShouldNot_UpdateKindergarden_WhenIdIsMissing(bool useEmptyGuid)
         {
             var created = await CreateKindergarden();
@@ -144,6 +152,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks uuendada lasteaeda, kui ID ei eksisteeri
         public async Task ShouldNot_UpdateKindergarden_WhenIdDoesNotExist()
         {
             var dto = MockKindergardenData();
@@ -157,6 +166,7 @@ namespace TaRge25Shop.Testing
         [InlineData(-999)]
         [InlineData(-1)]
         [InlineData(0)]
+        // Peaks looma lasteaia, kui laste arv ei ole positiivne
         public async Task Should_CreateKindergarden_WhenChildrenCountIsNotPositive(int childrenCount)
         {
             var dto = MockKindergardenData();
@@ -173,6 +183,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks näitama kõiki lasteaedu, kui need on olemas andmebaasis
         public async Task ShouldShow_KindergardensWhenThereAreAnyInTheDatabase()
         {
             // Ülesseade
@@ -191,6 +202,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks looma lasteaia, kui laste arv on null
         public async Task Should_CreateKindergarden_WhenChildrenCountIsZero()
         {
             var dto = MockKindergardenData();
@@ -207,6 +219,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks looma lasteaia, kui laste arv on 100
         public async Task Should_CreateKindergarden_WhenChildrenCountIsHundred()
         {
             // Ülesseade
@@ -225,10 +238,8 @@ namespace TaRge25Shop.Testing
             Assert.Equal(100, saved.ChildrenCount);
         }
 
-
-
-
         [Fact]
+        // Ei tohiks näidata lasteaedu, kui andmebaas on tühi
         public async Task ShouldNot_ShowKindergardens_WhenDatabaseIsEmpty()
         {
             var results = await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync();
@@ -237,6 +248,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks leida lasteaeda, kui ID on tühi
         public async Task ShouldNot_GetKindergardenById_WhenIdIsEmpty()
         {
             var created = await CreateKindergarden();
@@ -247,6 +259,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks kustutada lasteaeda, kui ID on tühi
         public async Task ShouldNot_DeleteKindergarden_WhenIdIsEmpty()
         {
             var created = await CreateKindergarden();
@@ -257,6 +270,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks kustutada lasteaeda, kui see on juba kustutatud
         public async Task ShouldNot_DeleteKindergarden_WhenAlreadyDeleted()
         {
             var created = await CreateKindergarden();
@@ -270,6 +284,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks uuendada lasteaeda, kui see on juba kustutatud
         public async Task ShouldNot_UpdateKindergarden_WhenAlreadyDeleted()
         {
             var created = await CreateKindergarden();
@@ -285,6 +300,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks looma erinevad ID-d, kui kaks lasteaeda on loodud 
         public async Task Should_CreateDifferentIds_WhenTwoKindergardensAreCreated()
         {
             var first = await CreateKindergarden();
@@ -298,6 +314,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks looma lasteaia, kui nimi juba eksisteerib
         public async Task Should_CreateKindergarden_WhenNameAlreadyExists()
         {
             var first = await CreateKindergarden();
@@ -315,6 +332,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks looma uue ID, kui DTO-l on juba ID
         public async Task Should_CreateNewId_WhenDtoAlreadyHasId()
         {
             var dto = MockKindergardenData();
@@ -332,6 +350,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks uuendama lasteaia nime, kui selle nimi muutub
         public async Task Should_UpdateKindergardenName_WhenNameChanges()
         {
             // Ülesseade
@@ -352,6 +371,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks uuendama rühma nime, kui selle nimi muutub
         public async Task Should_UpdateGroupName_WhenGroupNameChanges()
         {
             var created = await CreateKindergarden();
@@ -369,6 +389,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Pekas uuendam õpetaja nime, kui see muutub
         public async Task Should_UpdateTeacherName_WhenTeacherNameChanges()
         {
             var created = await CreateKindergarden();
@@ -386,6 +407,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Peaks uuendama laste arvu, kui see muutub nulliks
         public async Task Should_UpdateKindergarden_WhenChildrenCountBecomesZero()
         {
             var created = await CreateKindergarden();
@@ -403,6 +425,7 @@ namespace TaRge25Shop.Testing
         }
 
         [Fact]
+        // Ei tohiks uuendada teist lasteaeda, kui üks on juba uuendatud
         public async Task ShouldNot_UpdateOtherKindergarden_WhenOneKindergardenIsUpdated()
         {
             // Ülesseade
