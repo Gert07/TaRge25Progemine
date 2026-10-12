@@ -228,6 +228,213 @@ namespace TaRge25Shop.Testing
 
 
 
+        [Fact]
+        public async Task ShouldNot_ShowKindergardens_WhenDatabaseIsEmpty()
+        {
+            var results = await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync();
+
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public async Task ShouldNot_GetKindergardenById_WhenIdIsEmpty()
+        {
+            var created = await CreateKindergarden();
+            var result = await Svc<IKindergardenServices>().DetailAsync(Guid.Empty);
+
+            Assert.Null(result);
+            Assert.NotNull(await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value));
+        }
+
+        [Fact]
+        public async Task ShouldNot_DeleteKindergarden_WhenIdIsEmpty()
+        {
+            var created = await CreateKindergarden();
+            var result = await Svc<IKindergardenServices>().Delete(Guid.Empty);
+
+            Assert.Null(result);
+            Assert.NotNull(await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value));
+        }
+
+        [Fact]
+        public async Task ShouldNot_DeleteKindergarden_WhenAlreadyDeleted()
+        {
+            var created = await CreateKindergarden();
+            var deleted = await Svc<IKindergardenServices>().Delete(created.Id!.Value);
+
+            var result = await Svc<IKindergardenServices>().Delete(created.Id.Value);
+
+            Assert.NotNull(deleted);
+            Assert.Null(result);
+            Assert.Empty(await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync());
+        }
+
+        [Fact]
+        public async Task ShouldNot_UpdateKindergarden_WhenAlreadyDeleted()
+        {
+            var created = await CreateKindergarden();
+            var deleted = await Svc<IKindergardenServices>().Delete(created.Id!.Value);
+            Assert.NotNull(deleted);
+            var dto = MockKindergardenData();
+            dto.Id = created.Id;
+
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            Assert.Null(result);
+            Assert.Empty(await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync());
+        }
+
+        [Fact]
+        public async Task Should_CreateDifferentIds_WhenTwoKindergardensAreCreated()
+        {
+            var first = await CreateKindergarden();
+            var second = await CreateKindergarden();
+
+            Assert.NotEqual(Guid.Empty, first.Id!.Value);
+            Assert.NotEqual(Guid.Empty, second.Id!.Value);
+            Assert.NotEqual(first.Id, second.Id);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            Assert.Equal(2, await Svc<TaRge25ShopContext>().Kindergardens.CountAsync());
+        }
+
+        [Fact]
+        public async Task Should_CreateKindergarden_WhenNameAlreadyExists()
+        {
+            var first = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.KindergardenName = first.KindergardenName;
+
+            var result = await Svc<IKindergardenServices>().Create(dto);
+
+            Assert.NotNull(result);
+            Assert.NotEqual(first.Id, result.Id);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var results = await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync();
+            Assert.Equal(2, results.Count);
+            Assert.All(results, x => Assert.Equal(dto.KindergardenName, x.KindergardenName));
+        }
+
+        [Fact]
+        public async Task Should_CreateNewId_WhenDtoAlreadyHasId()
+        {
+            var dto = MockKindergardenData();
+            dto.Id = Guid.NewGuid();
+
+            var result = await Svc<IKindergardenServices>().Create(dto);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.Id);
+            Assert.NotEqual(Guid.Empty, result.Id.Value);
+            Assert.NotEqual(dto.Id, result.Id);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = Assert.Single(await Svc<TaRge25ShopContext>().Kindergardens.ToListAsync());
+            Assert.Equal(result.Id, saved.Id);
+        }
+
+        [Fact]
+        public async Task Should_UpdateKindergardenName_WhenNameChanges()
+        {
+            // Ülesseade
+            var created = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.Id = created.Id;
+            dto.KindergardenName = "Uus lasteaed";
+
+            // Tegevus
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            // Kontroll
+            Assert.NotNull(result);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value);
+            Assert.NotNull(saved);
+            Assert.Equal(dto.KindergardenName, saved.KindergardenName);
+        }
+
+        [Fact]
+        public async Task Should_UpdateGroupName_WhenGroupNameChanges()
+        {
+            var created = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.Id = created.Id;
+            dto.GroupName = "Mesilased";
+
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            Assert.NotNull(result);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value);
+            Assert.NotNull(saved);
+            Assert.Equal(dto.GroupName, saved.GroupName);
+        }
+
+        [Fact]
+        public async Task Should_UpdateTeacherName_WhenTeacherNameChanges()
+        {
+            var created = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.Id = created.Id;
+            dto.TeacherName = "Mari";
+
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            Assert.NotNull(result);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value);
+            Assert.NotNull(saved);
+            Assert.Equal(dto.TeacherName, saved.TeacherName);
+        }
+
+        [Fact]
+        public async Task Should_UpdateKindergarden_WhenChildrenCountBecomesZero()
+        {
+            var created = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.Id = created.Id;
+            dto.ChildrenCount = 0;
+
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            Assert.NotNull(result);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = await Svc<IKindergardenServices>().DetailAsync(created.Id!.Value);
+            Assert.NotNull(saved);
+            Assert.Equal(0, saved.ChildrenCount);
+        }
+
+        [Fact]
+        public async Task ShouldNot_UpdateOtherKindergarden_WhenOneKindergardenIsUpdated()
+        {
+            // Ülesseade
+            var first = await CreateKindergarden();
+            var second = await CreateKindergarden();
+            var dto = MockKindergardenData();
+            dto.Id = second.Id;
+            dto.KindergardenName = "Uus lasteaed";
+            dto.GroupName = "Mesilased";
+            dto.TeacherName = "Mari";
+            dto.ChildrenCount = 10;
+
+            // Tegevus
+            var result = await Svc<IKindergardenServices>().Update(dto);
+
+            // Kontroll
+            Assert.NotNull(result);
+            Svc<TaRge25ShopContext>().ChangeTracker.Clear();
+            var saved = await Svc<IKindergardenServices>().DetailAsync(first.Id!.Value);
+            Assert.NotNull(saved);
+            Assert.Equal(first.KindergardenName, saved.KindergardenName);
+            Assert.Equal(first.GroupName, saved.GroupName);
+            Assert.Equal(first.TeacherName, saved.TeacherName);
+            Assert.Equal(first.ChildrenCount, saved.ChildrenCount);
+            var updated = await Svc<IKindergardenServices>().DetailAsync(second.Id!.Value);
+            Assert.NotNull(updated);
+            Assert.Equal(dto.KindergardenName, updated.KindergardenName);
+            Assert.Equal(dto.GroupName, updated.GroupName);
+            Assert.Equal(dto.TeacherName, updated.TeacherName);
+            Assert.Equal(dto.ChildrenCount, updated.ChildrenCount);
+        }
+
         private async Task<Kindergarden> CreateKindergarden()
         {
             var dto = MockKindergardenData();
