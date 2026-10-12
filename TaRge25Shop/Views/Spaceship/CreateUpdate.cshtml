@@ -16,6 +16,7 @@ else
 
 
 <form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <input asp-for="Id" type="hidden" />
     <input asp-for="CreatedAt" type="hidden" />
     <input asp-for="UpdatedAt" type="hidden" />

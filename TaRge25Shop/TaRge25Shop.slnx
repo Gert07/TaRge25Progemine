@@ -2,5 +2,7 @@
   <Project Path="../TaRge25.Data/TaRge25Shop.Data.csproj" Id="f740af38-c314-4ba2-9d35-c6564f401cff" />
   <Project Path="../TaRge25Shop.ApplicationServices/TaRge25Shop.ApplicationServices.csproj" Id="5f6d2c65-7c3e-4614-91ac-b21d9dc4f89e" />
   <Project Path="../TaRge25Shop.Core/TaRge25Shop.Core.csproj" Id="baa805c9-d4e6-4000-ae23-047c47b90ce2" />
+  <Project Path="../TaRge25Shop.SeleniumTesting/TaRge25Shop.SeleniumTesting.csproj" />
+  <Project Path="../TaRge25Shop.Testing/TaRge25Shop.Testing.csproj" Id="a7968e95-62d8-4834-903d-b6ebf59d6961" />
   <Project Path="TaRge25Shop.csproj" />
 </Solution>

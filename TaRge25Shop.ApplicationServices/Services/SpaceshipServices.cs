@@ -22,8 +22,13 @@ namespace TaRge25Shop.ApplicationServices.Services
         //see meetod on vaja controlleris esile kutsuda
         //peab lisama interface, et kutsuda see meetod välja
 
-        public async Task<Spaceship>Create(SpaceshipDto dto)
+        public async Task<Spaceship?> Create(SpaceshipDto dto)
         {
+            if (dto.EnginePower <= 0 || dto.Crew <= 3)
+            {
+                return null;
+            }
+
             //siin peab tegema vahe instansi dto ja domaini vahel, et saaks domaini salvestada andmebaasi
             Spaceship spaceship = new Spaceship
             {
@@ -45,21 +50,27 @@ namespace TaRge25Shop.ApplicationServices.Services
         }
 
         //Teha update meetod, mis võtab vastu dto ja uuendab olemasolevat kosmoselaeva
-        public async Task<Spaceship>Update(SpaceshipDto dto)
+        public async Task<Spaceship?> Update(SpaceshipDto dto)
         {
-            Spaceship spaceship = new Spaceship
+            if (!dto.Id.HasValue || dto.Id == Guid.Empty || dto.EnginePower <= 0 || dto.Crew <= 3)
             {
-                Id = dto.Id,
-                Name = dto.Name,
-                ShipType = dto.ShipType,
-                Crew = dto.Crew,
-                EnginePower = dto.EnginePower,
-                CreatedAt = dto.CreatedAt,
-                UpdatedAt = DateTime.Now
-            };
+                return null;
+            }
+
+            var spaceship = await _context.Spaceships.FirstOrDefaultAsync(x => x.Id == dto.Id);
+            if (spaceship == null)
+            {
+                return null;
+            }
+
+            // Uuendame olemasolevat objekti ning säilitame loomise kuupäeva.
+            spaceship.Name = dto.Name;
+            spaceship.ShipType = dto.ShipType;
+            spaceship.Crew = dto.Crew;
+            spaceship.EnginePower = dto.EnginePower;
+            spaceship.UpdatedAt = DateTime.Now;
             
             await _fileServices.FilesToApi(dto, spaceship);
-            _context.Spaceships.Update(spaceship);
             await _context.SaveChangesAsync();
 
             return spaceship;

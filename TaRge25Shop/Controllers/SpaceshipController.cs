@@ -53,6 +53,11 @@ namespace TaRge25Shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SpaceshipCreateUpdateViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("CreateUpdate", vm);
+            }
+
             var dto = new SpaceshipDto
             {
                 Name = vm.Name,
@@ -76,7 +81,8 @@ namespace TaRge25Shop.Controllers
 
             if (result == null)
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Crew must contain at least 4 members and engine power must be greater than zero.");
+                return View("CreateUpdate", vm);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -117,6 +123,17 @@ namespace TaRge25Shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(SpaceshipCreateUpdateViewModel vm)
         {
+            if (!vm.Id.HasValue || await _spaceshipServices.DetailAsync(vm.Id.Value) == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadImages(vm);
+                return View("CreateUpdate", vm);
+            }
+
             var dto = new SpaceshipDto
             {
                 Id = vm.Id,
@@ -132,9 +149,23 @@ namespace TaRge25Shop.Controllers
             var result = await _spaceshipServices.Update(dto);
             if (result == null)
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Crew must contain at least 4 members and engine power must be greater than zero.");
+                await LoadImages(vm);
+                return View("CreateUpdate", vm);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task LoadImages(SpaceshipCreateUpdateViewModel vm)
+        {
+            vm.Image = await _context.FileToApi
+                .Where(image => image.SpaceshipId == vm.Id)
+                .Select(image => new ImageViewModel
+                {
+                    ImageId = image.Id,
+                    FilePath = image.ExistingFilePath,
+                    SpaceshipId = image.SpaceshipId
+                }).ToListAsync();
         }
 
         [HttpPost]
