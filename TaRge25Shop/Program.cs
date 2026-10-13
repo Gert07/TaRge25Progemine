@@ -20,6 +20,7 @@ namespace TaRge25Shop
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
             builder.Services.AddScoped<IKindergardenServices, KindergardenServices>();
+            builder.Services.AddHttpClient<IChuckNorrisServices, ChuckNorrisServices>();
 
             var app = builder.Build();
 
