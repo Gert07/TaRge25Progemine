@@ -48,28 +48,37 @@ namespace TaRge25Shop.SeleniumTesting
             Value = value;
         }
     }
-
+    //Xunit järjesti mis implementeerib ITestCaseOrdereri liidesest "OrderTestCases" meetodi, mis on see mis testide käivitamisel
+    //järjestab nad vastavalt "Order" omadusele
     public class PriorityOrderer : ITestCaseOrderer
     {
+        //meetod võtab sisse kõik test cased
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
             where TTestCase : ITestCase
         {
+            //meetod tagastab kõik test cased järjestatuna arendaja defineeritud järjesti järgi.
             return testCases.OrderBy(test =>
             {
+                //leitakse omadus
                 var method = test.TestMethod.Method.GetCustomAttributes(typeof(OrderAttribute)).FirstOrDefault();
+                //kui ei leita
                 if (method == null)
                 {
+                    //antakse maksimaalne väärtus, ehk test teostatakse kohe, ega ei
+                    //panda teiste pontensiaalselt järjekorras olevate testide vahele
                     return int.MaxValue;
                 }
+                //kui leitakse
                 else
                 {
+                    //siis tagastatakse omaduse "Order" väärtus
                     return (int)method.GetConstructorArguments().Single();
                 }
-            }).ToList();
+            }).ToList(); //pannakse loendisse, ToList on linq meetod.
         }
     }
-
-
+    //enne testi klassi kirjeldatakse ära mille järgi testid sorteeritakse
+    //tunnuse "TestCaseOrderer"i järgi. Sulgude vahel esimene väärtus on klassi asukoht ise, teine väärtus on nimeruum kus klass asub.
     [TestCaseOrderer("TaRge25Shop.SeleniumTesting.PriorityOrderer", "TaRge25Shop.SeleniumTesting")]
     public class SpaceshipFrontendTests : IClassFixture<SeleniumWebAppFixture>
     {
@@ -87,6 +96,7 @@ namespace TaRge25Shop.SeleniumTesting
         }
 
         [Fact]
+        [Order(1)] //järjesti millel on väärtus "1", järjestatakse väiksem enne.
         public void Should_NavigateToCreate_AddSpaceShip_WithCorrectData_ReturnToIndex()
         {
             //ülesseade
@@ -112,6 +122,7 @@ namespace TaRge25Shop.SeleniumTesting
         }
 
         [Fact]
+        [Order(2)]
         public void Should_NavigateToDetails_OfASpaceShip_WithPreviouslyCorrectData()
         {
             //ülesseade
@@ -131,45 +142,7 @@ namespace TaRge25Shop.SeleniumTesting
             Assert.Equal("i add name for spaceship", driver.FindElement(By.Id("Name")).GetAttribute("value"));
             Assert.Equal("i add ship type for spaceship", driver.FindElement(By.Id("ShipType")).GetAttribute("value"));
             Assert.Equal("12345", driver.FindElement(By.Id("Crew")).GetAttribute("value"));
-            Assert.Equal("666667", driver.FindElement(By.Id("EnginePower")).GetAttribute("value"));
-        }
-
-        [Fact]
-        public void Should_UpdateDetails_OfASpaceShip_WithNewData()
-        {
-            //ülesseade
-            using IWebDriver driver = SetupAndNavigateSIndex();
-            var createdRow = CreateSpaceship(driver);
-            //vajuta selles reas asuvat update nuppu
-            IWebElement updateButton = createdRow.FindElement(By.LinkText("Update"));
-            updateButton.Click();
-            var spaceshipId = driver.FindElement(By.Id("Id")).GetAttribute("value");
-
-            //sisestatavad andmed
-            InsertSpaceShipData(driver, true);
-            IWebElement saveButton = driver.FindElement(By.CssSelector("input[type='submit'][value='Update Spaceship']"));
-            saveButton.Click();
-
-            //kontroll
-            Assert.Equal("/Spaceship", new Uri(driver.Url).AbsolutePath);
-            //andmete kogumine pärast reloadi
-            var updatedRow = FindSpaceshipRow(driver, "DISISENJUNAEM");
-            var cells = updatedRow.FindElements(By.TagName("td"));
-            //kontroll
-            Assert.Equal("DISISENJUNAEM", cells[1].Text);
-            Assert.Equal("completely unheard of haunebu", cells[2].Text);
-            Assert.Equal("67890", cells[4].Text);
-            Assert.Empty(driver.FindElements(By.XPath("//tbody/tr[td[normalize-space()='i add name for spaceship']]")));
-
-            //kontrollime salvestatud andmeid ka detailvaates
-            IWebElement detailsButton = updatedRow.FindElement(By.LinkText("Details"));
-            detailsButton.Click();
-            Assert.Equal(spaceshipId, driver.FindElement(By.CssSelector("input#Id.form-control-plaintext")).GetAttribute("value"));
-            Assert.Equal("DISISENJUNAEM", driver.FindElement(By.Id("Name")).GetAttribute("value"));
-            Assert.Equal("completely unheard of haunebu", driver.FindElement(By.Id("ShipType")).GetAttribute("value"));
-            Assert.Equal("67890", driver.FindElement(By.Id("Crew")).GetAttribute("value"));
-            Assert.Equal("444", driver.FindElement(By.Id("EnginePower")).GetAttribute("value"));
-        }
+            Assert.Equal("666667", driver.FindElement(By.Id("EnginePower")).GetAttribute("value"));       }
 
         private IWebDriver SetupAndNavigateSIndex()
         {
@@ -195,6 +168,7 @@ namespace TaRge25Shop.SeleniumTesting
             }
         }
         [Fact]
+        [Order(3)]
         public void Should_UpdateDetails_OfASpaceship_WithNewData()
         {
             //ülesseade
@@ -227,6 +201,7 @@ namespace TaRge25Shop.SeleniumTesting
             Assert.Equal("444", driver.FindElement(By.Id("EnginePower")).GetAttribute("value"));
         }
         [Fact]
+        [Order(4)]
         public void Should_DeleteSpaceship_FromAppViaDeleteView()
         {
             //ülesseade
@@ -251,6 +226,43 @@ namespace TaRge25Shop.SeleniumTesting
             Assert.Equal("/Spaceship", new Uri(driver.Url).AbsolutePath);
             Assert.True(driver.FindElement(By.CssSelector("a[href='/Spaceship/Create']")).Displayed);
             Assert.Empty(driver.FindElements(By.CssSelector("tbody tr")));
+        }
+
+        [Fact]
+        [Order(5)]
+        public void Should_NavigateToCreate_AddUniqueSpaceShip_WithCorrectData_ReturnToIndex()
+        {
+            //ülesseade: tabelis on juba üks teine kosmoselaev
+            using IWebDriver driver = SetupAndNavigateSIndex();
+            CreateSpaceship(driver);
+
+            IWebElement createInIndex = driver.FindElement(By.LinkText("Create Spaceship"));
+            createInIndex.Click();
+            Assert.Equal("/Spaceship/Create", new Uri(driver.Url).AbsolutePath);
+
+            //nimi on igal käivitusel uus ja jääb selle testi piiresse
+            string concreteName = InsertSpaceShipData_ReturnName(driver);
+            Assert.True(Guid.TryParse(concreteName, out var nameGuid));
+            Assert.NotEqual(Guid.Empty, nameGuid);
+
+            IWebElement createButton = driver.FindElement(By.CssSelector("input[type='submit'][value='Create Spaceship']"));
+            createButton.Click();
+
+            //leiame just loodud kosmoselaeva, isegi kui see pole tabeli esimene rida
+            Assert.Equal("/Spaceship", new Uri(driver.Url).AbsolutePath);
+            Assert.Equal(2, driver.FindElements(By.CssSelector("tbody tr")).Count);
+            var createdRow = FindSpaceshipRow(driver, concreteName);
+            var cells = createdRow.FindElements(By.TagName("td"));
+            Assert.Equal(concreteName, cells[1].Text);
+            Assert.Equal("i add ship type for spaceship", cells[2].Text);
+            Assert.False(string.IsNullOrWhiteSpace(cells[3].Text));
+            Assert.Equal("12345", cells[4].Text);
+
+            //mootori võimsust näidatakse detailvaates
+            createdRow.FindElement(By.LinkText("Details")).Click();
+            Assert.StartsWith("/Spaceship/Details/", new Uri(driver.Url).AbsolutePath);
+            Assert.Equal(concreteName, driver.FindElement(By.Id("Name")).GetAttribute("value"));
+            Assert.Equal("666667", driver.FindElement(By.Id("EnginePower")).GetAttribute("value"));
         }
 
         private static IWebElement CreateSpaceship(IWebDriver driver)
@@ -293,12 +305,19 @@ namespace TaRge25Shop.SeleniumTesting
             return new FirefoxDriver(driverService, options);
         }
 
-        private static void InsertSpaceShipData(IWebDriver driver, bool isUpdate = false)
+        private static string InsertSpaceShipData_ReturnName(IWebDriver driver, bool isUpdate = false)
+        {
+            string concreteName = Guid.NewGuid().ToString();
+            InsertSpaceShipData(driver, isUpdate, concreteName);
+            return concreteName;
+        }
+
+        private static void InsertSpaceShipData(IWebDriver driver, bool isUpdate = false, string? name = null)
         {
             //sisestatavad andmed: isUpdate korral uued väärtused, muidu loomise andmed
             IWebElement cu_NameEntrySpaceship = driver.FindElement(By.Id("Name"));
             cu_NameEntrySpaceship.Clear();
-            cu_NameEntrySpaceship.SendKeys(isUpdate ? "DISISENJUNAEM" : "i add name for spaceship");
+            cu_NameEntrySpaceship.SendKeys(name ?? (isUpdate ? "DISISENJUNAEM" : "i add name for spaceship"));
 
             IWebElement cu_ShipTypeEntrySpaceship = driver.FindElement(By.Id("ShipType"));
             cu_ShipTypeEntrySpaceship.Clear();
