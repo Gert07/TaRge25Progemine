@@ -70,6 +70,60 @@ namespace TaRge25Shop.SeleniumTesting
             Assert.Equal("Mari Maasikas", kindergardenTeacherNameData);
         }
 
+        [Fact]
+        [Order(2)]
+        public void Should_NavigateToDetails_OfThisKindergarden_WithPreviouslyCorrectData()
+        {
+            //ülesseade
+            using IWebDriver driver = SetupAndNavigateKIndex();
+
+            //otsime üles kõik tabeli read
+            var table = driver.FindElement(By.CssSelector("table.table"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+            bool isObjectFound = false;
+
+            //tegevus
+            foreach (var row in rows)
+            {
+                var locatedelement = row.FindElement(By.CssSelector("td:nth-child(2)"));
+                if (locatedelement.Text == thisRunGuid)
+                {
+                    isObjectFound = true;
+                    var button = row.FindElement(By.LinkText("Details"));
+                    button.Click();
+                    break;
+                }
+            }
+            Assert.True(isObjectFound);
+
+            //andmete kogumine pärast reloadi
+            IWebElement details_KindergardenId = driver.FindElement(By.CssSelector("input#Id.form-control-plaintext"));
+            var details_id = details_KindergardenId.GetAttribute("value");
+
+            IWebElement details_KindergardenGroupName = driver.FindElement(By.Id("GroupName"));
+            var details_groupName = details_KindergardenGroupName.GetAttribute("value");
+
+            IWebElement details_KindergardenName = driver.FindElement(By.Id("KindergardenName"));
+            var details_kindergardenName = details_KindergardenName.GetAttribute("value");
+
+            IWebElement details_KindergardenChildrenCount = driver.FindElement(By.Id("ChildrenCount"));
+            var details_childrenCount = details_KindergardenChildrenCount.GetAttribute("value");
+
+            IWebElement details_KindergardenTeacherName = driver.FindElement(By.Id("TeacherName"));
+            var details_teacherName = details_KindergardenTeacherName.GetAttribute("value");
+
+            driver.Quit();
+
+            //kontroll
+            Assert.True(Guid.TryParse(details_id, out Guid kindergardenId));
+            Assert.NotEqual(Guid.Empty, kindergardenId);
+            Assert.Equal(thisRunGuid, details_groupName);
+            Assert.Equal("Testi lasteaed", details_kindergardenName);
+            Assert.Equal("20", details_childrenCount);
+            Assert.Equal("Mari Maasikas", details_teacherName);
+        }
+
         private static IWebDriver SetupAndNavigateKIndex()
         {
             //firefoxi käskiv ja juhtiv draiver
