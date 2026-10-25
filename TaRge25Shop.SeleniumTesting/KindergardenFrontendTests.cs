@@ -212,6 +212,69 @@ namespace TaRge25Shop.SeleniumTesting
             Assert.Equal("Kati Kask", details_teacherName);
         }
 
+        [Fact]
+        [Order(4)]
+        public void Should_DeleteThisKindergarden_FromAppVIADeleteView()
+        {
+            //ülesseade
+            Assert.NotEmpty(thisRunGuid);
+            using IWebDriver driver = SetupAndNavigateKIndex();
+
+            //otsime üles eelmistes testides loodud ja muudetud rühma
+            var table = driver.FindElement(By.CssSelector("table.table"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+            bool doesItExist = false;
+
+            foreach (var row in rows)
+            {
+                var locatedelement = row.FindElement(By.CssSelector("td:nth-child(2)"));
+                if (locatedelement.Text == thisRunGuid)
+                {
+                    doesItExist = true;
+                    var button = row.FindElement(By.LinkText("Delete"));
+                    button.Click();
+                    break;
+                }
+            }
+            Assert.True(doesItExist);
+
+            //kontrollime enne kustutamist, et avatud on õige rühm
+            var delete_groupName = driver.FindElement(By.Id("GroupName")).GetAttribute("value");
+            var delete_kindergardenName = driver.FindElement(By.Id("KindergardenName")).GetAttribute("value");
+            var delete_childrenCount = driver.FindElement(By.Id("ChildrenCount")).GetAttribute("value");
+            var delete_teacherName = driver.FindElement(By.Id("TeacherName")).GetAttribute("value");
+
+            Assert.Equal(thisRunGuid, delete_groupName);
+            Assert.Equal("Muudetud lasteaed", delete_kindergardenName);
+            Assert.Equal("25", delete_childrenCount);
+            Assert.Equal("Kati Kask", delete_teacherName);
+
+            //tegevus
+            IWebElement deleteKindergarden = driver.FindElement(By.CssSelector("input[type='submit'][value='Delete Kindergarden']"));
+            deleteKindergarden.Click();
+
+            //andmete kogumine pärast reloadi
+            table = driver.FindElement(By.CssSelector("table.table"));
+            rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+            bool isDeleted = true;
+
+            foreach (var row in rows)
+            {
+                var nameElement = row.FindElement(By.CssSelector("td:nth-child(2)")).Text;
+                if (nameElement == thisRunGuid)
+                {
+                    isDeleted = false;
+                    break;
+                }
+            }
+            driver.Quit();
+
+            //kontroll
+            Assert.True(isDeleted);
+        }
+
         private static IWebDriver SetupAndNavigateKIndex()
         {
             //firefoxi käskiv ja juhtiv draiver
