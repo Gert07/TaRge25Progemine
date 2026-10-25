@@ -1,0 +1,38 @@
+@model TaRge25Shop.Models.Cocktail.CocktailViewModel
+
+@{
+    ViewData["Title"] = Model.Drink;
+}
+
+<h1>@Model.Drink</h1>
+<div class="row g-4">
+    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <div class="col-md-4">
+            <img src="@Model.ImageUrl" alt="@Model.Drink" class="img-fluid rounded" />
+        </div>
+    }
+    <div class="col-md-8">
+        <dl class="row">
+            <dt class="col-sm-3">Drink ID</dt>
+            <dd class="col-sm-9">@Model.IdDrink</dd>
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.Category</dd>
+            <dt class="col-sm-3">Alcoholic</dt>
+            <dd class="col-sm-9">@Model.Alcoholic</dd>
+            <dt class="col-sm-3">Glass</dt>
+            <dd class="col-sm-9">@Model.Glass</dd>
+        </dl>
+        <h2>Ingredients and amounts</h2>
+        <ul>
+            @foreach (var ingredient in Model.Ingredients)
+            {
+                <li>@ingredient</li>
+            }
+        </ul>
+        <h2>Instructions</h2>
+        <p class="text-break">@Model.Instructions</p>
+    </div>
+</div>
+<a asp-action="Index" class="btn btn-primary mt-3">Search again</a>
+<p class="mt-3">Recipe provided by <a href="https://www.thecocktaildb.com/">TheCocktailDB</a>.</p>

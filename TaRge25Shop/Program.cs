@@ -21,6 +21,8 @@ namespace TaRge25Shop
             builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
             builder.Services.AddScoped<IKindergardenServices, KindergardenServices>();
             builder.Services.AddHttpClient<IChuckNorrisServices, ChuckNorrisServices>();
+            builder.Services.AddHttpClient<ICocktailServices, CocktailServices>(client =>
+                client.Timeout = TimeSpan.FromSeconds(15));
 
             var app = builder.Build();
 
