@@ -1,0 +1,46 @@
+@model TaRge25Shop.Models.OpenWeather.OpenWeatherViewModel
+
+@{
+    ViewData["Title"] = $"Ilm: {Model.City}";
+}
+
+<h1>Praegune ilm: @Model.City@(!string.IsNullOrWhiteSpace(Model.Country) ? $", {Model.Country}" : "")</h1>
+<div class="d-flex align-items-center gap-3 mb-3">
+    @if (Model.IconUrl != null)
+    {
+        <img src="@Model.IconUrl" alt="@Model.Description" width="100" height="100" />
+    }
+    <div>
+        <p class="display-6 mb-0">@Model.Temperature.ToString("0.#") °C</p>
+        <p class="mb-0">@Model.Description</p>
+    </div>
+</div>
+<dl class="row">
+    @if (Model.FeelsLike.HasValue)
+    {
+        <dt class="col-sm-3">Tajutav temperatuur</dt>
+        <dd class="col-sm-9">@Model.FeelsLike.Value.ToString("0.#") °C</dd>
+    }
+    @if (Model.Humidity.HasValue)
+    {
+        <dt class="col-sm-3">Õhuniiskus</dt>
+        <dd class="col-sm-9">@Model.Humidity %</dd>
+    }
+    @if (Model.Pressure.HasValue)
+    {
+        <dt class="col-sm-3">Õhurõhk</dt>
+        <dd class="col-sm-9">@Model.Pressure hPa</dd>
+    }
+    @if (Model.WindSpeed.HasValue)
+    {
+        <dt class="col-sm-3">Tuule kiirus</dt>
+        <dd class="col-sm-9">@Model.WindSpeed.Value.ToString("0.#") m/s</dd>
+    }
+    @if (Model.Cloudiness.HasValue)
+    {
+        <dt class="col-sm-3">Pilvisus</dt>
+        <dd class="col-sm-9">@Model.Cloudiness %</dd>
+    }
+</dl>
+<a asp-action="Index" class="btn btn-primary">Otsi uut linna</a>
+<p class="mt-3">Ilmaandmed: <a href="https://openweathermap.org/">OpenWeather</a> (Current Weather Data).</p>

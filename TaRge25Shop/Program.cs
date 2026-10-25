@@ -23,6 +23,9 @@ namespace TaRge25Shop
             builder.Services.AddHttpClient<IChuckNorrisServices, ChuckNorrisServices>();
             builder.Services.AddHttpClient<ICocktailServices, CocktailServices>(client =>
                 client.Timeout = TimeSpan.FromSeconds(15));
+            builder.Services.AddHttpClient<IOpenWeatherServices, OpenWeatherServices>(client =>
+                client.Timeout = TimeSpan.FromSeconds(15))
+                .RemoveAllLoggers(); // The request URL contains the API key.
 
             var app = builder.Build();
 
