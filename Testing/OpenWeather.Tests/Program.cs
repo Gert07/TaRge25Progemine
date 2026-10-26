@@ -102,7 +102,7 @@ try
         && Uri.UnescapeDataString(search.Headers.Location!.OriginalString) == "/OpenWeather/Weather?city=Tallinn,EE",
         "Valid search redirects to a bookmarkable weather URL with a trimmed city");
     var weather = await Page(search.Headers.Location!.OriginalString);
-    Check(weather.Contains("Tallinn, EE") && weather.Contains("light snow")
+    Check(weather.Contains("Tallinn, EE") && weather.Contains("Kerge lumesadu") && !weather.Contains("light snow")
         && weather.Contains("https://openweathermap.org/img/wn/13d@2x.png")
         && weather.Contains("°C") && weather.Contains("m/s") && weather.Contains("hPa")
         && weather.Contains("Õhuniiskus") && weather.Contains("Pilvisus"),
@@ -141,7 +141,7 @@ try
             $"Failure '{city}' renders a helpful message, preserves input and hides the API key");
     }
     var optional = await Page("/OpenWeather/Weather?city=minimal");
-    Check(optional.Contains("clear sky") && !optional.Contains("Õhuniiskus") && !optional.Contains("Tuule kiirus"),
+    Check(optional.Contains("Selge taevas") && !optional.Contains("clear sky") && !optional.Contains("Õhuniiskus") && !optional.Contains("Tuule kiirus"),
         "Missing optional weather measurements are omitted rather than displayed as zero");
     configuration["OpenWeather:ApiKey"] = "";
     Check((await Page("/OpenWeather/Weather?city=Tallinn")).Contains("Lisa OpenWeather API võti"),

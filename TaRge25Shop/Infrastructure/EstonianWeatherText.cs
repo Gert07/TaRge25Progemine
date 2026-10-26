@@ -1,0 +1,72 @@
+namespace TaRge25Shop.Infrastructure;
+
+public static class EstonianWeatherText
+{
+    // OpenWeather does not provide Estonian descriptions; localize its condition terms here.
+    public static string Describe(string? description, string? category) => description?.Trim().ToLowerInvariant() switch
+    {
+        "clear sky" or "sky is clear" => "Selge taevas",
+        "few clouds" => "Vähene pilvisus",
+        "scattered clouds" => "Vahelduv pilvisus",
+        "broken clouds" => "Pilves selgimistega",
+        "overcast clouds" => "Lauspilves",
+        "light rain" => "Kerge vihmasadu",
+        "moderate rain" => "Mõõdukas vihmasadu",
+        "heavy intensity rain" => "Tugev vihmasadu",
+        "very heavy rain" => "Väga tugev vihmasadu",
+        "extreme rain" => "Erakordselt tugev vihmasadu",
+        "freezing rain" => "Jäätuv vihm",
+        "light intensity shower rain" => "Kerge hoovihm",
+        "shower rain" => "Hoovihm",
+        "heavy intensity shower rain" => "Tugev hoovihm",
+        "ragged shower rain" => "Ebaühtlane hoovihm",
+        "light intensity drizzle" => "Kerge uduvihm",
+        "drizzle" => "Uduvihm",
+        "heavy intensity drizzle" => "Tugev uduvihm",
+        "light intensity drizzle rain" => "Kerge uduvihm ja vihm",
+        "drizzle rain" => "Uduvihm ja vihm",
+        "heavy intensity drizzle rain" => "Tugev uduvihm ja vihm",
+        "shower rain and drizzle" => "Hoovihm ja uduvihm",
+        "heavy shower rain and drizzle" => "Tugev hoovihm ja uduvihm",
+        "shower drizzle" => "Hootine uduvihm",
+        "light snow" => "Kerge lumesadu",
+        "snow" => "Lumesadu",
+        "heavy snow" => "Tugev lumesadu",
+        "sleet" => "Lörts",
+        "light shower sleet" => "Kerge lörtsihoog",
+        "shower sleet" => "Lörtsihood",
+        "light rain and snow" => "Kerge vihma- ja lumesadu",
+        "rain and snow" => "Vihma- ja lumesadu",
+        "light shower snow" => "Kerged lumehood",
+        "shower snow" => "Lumehood",
+        "heavy shower snow" => "Tugevad lumehood",
+        "thunderstorm with light rain" => "Äike ja kerge vihm",
+        "thunderstorm with rain" => "Äike ja vihm",
+        "thunderstorm with heavy rain" => "Äike ja tugev vihm",
+        "light thunderstorm" => "Nõrk äike",
+        "thunderstorm" => "Äike",
+        "heavy thunderstorm" => "Tugev äike",
+        "ragged thunderstorm" => "Vahelduv äike",
+        "thunderstorm with light drizzle" => "Äike ja kerge uduvihm",
+        "thunderstorm with drizzle" => "Äike ja uduvihm",
+        "thunderstorm with heavy drizzle" => "Äike ja tugev uduvihm",
+        "mist" => "Uduvine",
+        "smoke" => "Suits",
+        "haze" => "Vine",
+        "sand/dust whirls" => "Liiva- ja tolmukeerised",
+        "fog" => "Udu",
+        "sand" => "Liiv",
+        "dust" => "Tolm",
+        "volcanic ash" => "Vulkaaniline tuhk",
+        "squalls" => "Pagid",
+        "tornado" => "Tornaado",
+        _ => category?.Trim().ToLowerInvariant() switch
+        {
+            "clear" => "Selge taevas", "clouds" => "Pilvisus", "rain" => "Vihmasadu",
+            "snow" => "Lumesadu", "drizzle" => "Uduvihm", "thunderstorm" => "Äike",
+            "mist" => "Uduvine", "fog" => "Udu", "haze" => "Vine", "smoke" => "Suits",
+            "sand" => "Liiv", "dust" => "Tolm", "ash" => "Vulkaaniline tuhk",
+            "squall" => "Pagid", "tornado" => "Tornaado", _ => "Ilmakirjeldus puudub"
+        }
+    };
+}

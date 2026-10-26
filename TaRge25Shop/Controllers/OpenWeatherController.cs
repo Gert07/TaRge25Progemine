@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.Models.OpenWeather;
+using TaRge25Shop.Infrastructure;
 
 namespace TaRge25Shop.Controllers
 {
@@ -52,7 +53,7 @@ namespace TaRge25Shop.Controllers
                 {
                     City = weather.Name ?? search.City,
                     Country = weather.Sys?.Country,
-                    Description = condition.Description ?? condition.Main ?? string.Empty,
+                    Description = EstonianWeatherText.Describe(condition.Description, condition.Main),
                     IconUrl = string.IsNullOrWhiteSpace(condition.Icon) ? null
                         : $"https://openweathermap.org/img/wn/{Uri.EscapeDataString(condition.Icon)}@2x.png",
                     Temperature = weather.Main!.Temperature!.Value,

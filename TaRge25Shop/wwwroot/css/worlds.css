@@ -100,7 +100,7 @@
   .world-main { padding-inline: 6%; }
   .world-intro { min-height: 260px; gap: 10px; padding-block: 32px; }
   .world-intro-copy { max-width: 75%; }
-  .world-title { font-size: 39px; letter-spacing: -1.6px; margin-block: 13px; }
+  .world-title { font-size: clamp(30px, 10vw, 39px); letter-spacing: -1.6px; margin-block: 13px; }
   .world-kicker { font-size: 7px; letter-spacing: 1.2px; }
   .world-description { font-size: 11px; line-height: 1.7; }
   .world-mascot { width: 120px; height: 135px; margin: 25px -8px 0 -25px; }
