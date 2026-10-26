@@ -3,13 +3,13 @@
 @if (Model.Id.HasValue)
 {
     <h1>
-        Update
+        Muuda
     </h1>
 }
 else
 {
     <h1>
-        Create
+        Lisa
     </h1>
 }
 
@@ -64,7 +64,7 @@ else
                         name="imageId"
                         value="@images.ImageId"
                         class="btn btn-danger">
-                    Remove Image
+                    Eemalda pilt
                 </button>
             }
     </div>
@@ -74,13 +74,13 @@ else
 
     @if (Model.Id.HasValue)
     {
-        <input asp-action="Update" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Update Spaceship" />
+        <input asp-action="Update" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Salvesta kosmoselaev" />
     }
     else
     {
-        <input asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Create Spaceship" />
+        <input asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-success" value="Lisa kosmoselaev" />
     }
 
     
-    <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Back to list</a>
+    <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Tagasi loendisse</a>
 </form>

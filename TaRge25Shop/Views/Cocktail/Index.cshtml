@@ -1,11 +1,11 @@
 @model TaRge25Shop.Models.Cocktail.CocktailSearchViewModel
 
 @{
-    ViewData["Title"] = "Cocktails";
+    ViewData["Title"] = "Kokteilid";
 }
 
-<h1>Cocktails</h1>
-<p>Search by name to see the first matching recipe, its ingredients, and preparation instructions.</p>
+<h1>Kokteilid</h1>
+<p>Otsi kokteili nime järgi ning vaata selle koostisosi, koguseid ja valmistamisjuhist.</p>
 
 @if (!string.IsNullOrEmpty(Model.Message))
 {
@@ -16,13 +16,11 @@
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="mb-3">
         <label asp-for="CocktailName" class="form-label"></label>
-        <input asp-for="CocktailName" class="form-control" maxlength="100" placeholder="e.g. Margarita" />
+        <input asp-for="CocktailName" class="form-control" maxlength="100" placeholder="Näiteks Margarita" />
         <span asp-validation-for="CocktailName" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-primary">Otsi</button>
 </form>
-
-<p class="mt-3">Recipes provided by <a href="https://www.thecocktaildb.com/">TheCocktailDB</a>.</p>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

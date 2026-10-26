@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace TaRge25Shop.Models.OpenWeather
 {
     public class OpenWeatherViewModel
@@ -5,6 +7,7 @@ namespace TaRge25Shop.Models.OpenWeather
         public string City { get; set; } = string.Empty;
         public string? Country { get; set; }
         public string Description { get; set; } = string.Empty;
+        [Display(Name = "Ikooni aadress")]
         public string? IconUrl { get; set; }
         public double Temperature { get; set; }
         public double? FeelsLike { get; set; }

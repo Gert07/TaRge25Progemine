@@ -1,7 +1,7 @@
 @model TaRge25Shop.Models.Kindergarden.KindergardenDeleteViewModel
 
 <div>
-    Kindergarden Delete
+    Lasteaia kustutamine
 </div>
 <form method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
@@ -66,6 +66,6 @@
         </div>
     }
 
-    <input asp-action="DeleteConfirmation" asp-controller="Kindergarden" type="submit" class="btn btn-danger" value="Delete Kindergarden" />
-    <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
+    <input asp-action="DeleteConfirmation" asp-controller="Kindergarden" type="submit" class="btn btn-danger" value="Kustuta lasteaed" />
+    <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Tagasi loendisse</a>
 </form>

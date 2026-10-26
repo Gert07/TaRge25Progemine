@@ -119,7 +119,7 @@ namespace TaRge25Shop.Controllers
         {
             if (!vm.Id.HasValue)
             {
-                ModelState.AddModelError(string.Empty, "The real estate ID is missing.");
+                ModelState.AddModelError(string.Empty, "Kinnisvara tunnus puudub.");
             }
 
             if (!ModelState.IsValid)

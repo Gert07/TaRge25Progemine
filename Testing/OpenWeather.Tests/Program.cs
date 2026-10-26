@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using TaRge25Shop.ApplicationServices.Services;
 using TaRge25Shop.Controllers;
 using TaRge25Shop.Core.ServiceInterface;
+using TaRge25Shop.Infrastructure;
 
 var checks = 0;
 void Check(bool condition, string message)
@@ -64,7 +65,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 builder.Logging.ClearProviders();
 builder.WebHost.UseUrls("http://127.0.0.1:0");
-builder.Services.AddControllersWithViews().AddApplicationPart(typeof(OpenWeatherController).Assembly);
+builder.Services.AddControllersWithViews().AddEstonianUi().AddApplicationPart(typeof(OpenWeatherController).Assembly);
 builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
 builder.Services.AddSingleton<IOpenWeatherServices>(service);
 await using var app = builder.Build();

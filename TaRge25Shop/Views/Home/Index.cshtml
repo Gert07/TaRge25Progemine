@@ -1,8 +1,41 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Avaleht";
+    var worlds = new[] {
+        (Controller: "Spaceship", Title: "Kosmoselaevad", Hint: "Järgmine peatus: kosmos", Object: "rocket", Art: "scifispaceship.svg", X: 43, Y: 28),
+        (Controller: "Cocktail", Title: "Kokteilid", Hint: "Leia uus lemmikkokteil", Object: "cocktail", Art: "johnny-automatic-bar-drinks-colour.svg", X: 17, Y: 47),
+        (Controller: "RealEstate", Title: "Kinnisvara", Hint: "Leia oma koht universumis", Object: "house", Art: "real-estate-art.svg", X: 82, Y: 52),
+        (Controller: "Kindergarden", Title: "Lasteaiad", Hint: "Väikeste ideede suur maailm", Object: "flower", Art: "Kindergarden.svg", X: 64, Y: 75),
+        (Controller: "ChuckNorris", Title: "Chuck Norris", Hint: "Sisene omal vastutusel", Object: "chuck", Art: "chuk-norris.svg", X: 30, Y: 75),
+        (Controller: "OpenWeather", Title: "Ilm", Hint: "Vaata, mis taevas toimub", Object: "weather", Art: "Raseone_Weather.svg", X: 73, Y: 25)
+    };
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="playground" aria-label="Avasta kuut kosmoses liikuvat sihtkohta">
+    <h1 class="visually-hidden">Vali järgmine sihtkoht</h1>
+    <header class="orbit-header">
+        <a class="orbit-brand" asp-controller="Home" asp-action="Index" aria-current="page">Avaleht<span aria-hidden="true">↗</span></a>
+        <span class="orbit-header-note">KUUS SIHTKOHTA.<br />KURSS ON VABA.</span>    </header>
+
+    <partial name="_SpaceBackdrop" />
+    <nav class="floating-worlds" aria-label="Vali üks kuuest sihtkohast">
+        @for (var index = 0; index < worlds.Length; index++)
+        {
+            var world = worlds[index];
+            <a class="world-object object-@world.Object" data-drift="world" data-x="@world.X" data-y="@world.Y" asp-controller="@world.Controller" asp-action="Index" aria-label="@world.Title — @world.Hint" style="--start-x: @(world.X)%; --start-y: @(world.Y)%;">
+                <img class="world-art" src="~/images/worlds/@world.Art" alt="" draggable="false" asp-append-version="true" />
+                <span class="object-label"><span class="object-number">0@(index + 1)</span> @world.Title <span class="object-arrow" aria-hidden="true">↗</span></span>
+                <span class="object-hint">@world.Hint</span>
+            </a>
+        }
+    </nav>
+
+    <footer class="orbit-footer">
+        <div class="orbit-footer-caption"><span class="status-dot" aria-hidden="true"></span> MISKI EI PÜSI PAIGAL.<span class="orbit-location">VALI SIHTKOHT JA AVASTA KOSMOST.</span></div>
+        <span class="flight-status" aria-hidden="true">VABA LEND <span>∞</span></span>
+    </footer>
+</section>
+<div class="navigation-veil" aria-hidden="true"></div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}

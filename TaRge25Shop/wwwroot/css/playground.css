@@ -1,0 +1,56 @@
+.orbit-home { background: #060a19; color: #eaf4ff; }
+.orbit-home .dashboard-content { overflow: clip; }
+.orbit-home .dashboard-content:focus { outline: none; }
+.orbit-home :focus-visible { outline: 2px solid #96dfff; outline-offset: 6px; }
+.orbit-home ::selection { color: #101c32; background: #b3e7ff; }
+.playground { position: relative; isolation: isolate; min-height: 700px; height: 100svh; overflow: hidden; background: #060a19; }
+.playground::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 48%, transparent 25%, #02040e50 100%); }
+.orbit-header { position: absolute; inset: 0 0 auto; z-index: 30; display: flex; align-items: center; gap: 28px; padding: 30px 3.4%; }
+.orbit-brand { display: inline-flex; align-items: center; gap: 18px; font: 600 30px/1 'Arial', sans-serif; letter-spacing: -1.5px; color: #edf5ff; text-decoration: none; }
+.orbit-brand:hover { color: #fff; }
+.orbit-brand > span { color: #9dceee; font-size: 24px; font-weight: 400; }
+.orbit-header-note { padding-left: 24px; border-left: 1px solid #9dcfff35; color: #9dadcd; font: 8px/1.6 'Courier New', monospace; letter-spacing: 1.2px; }
+.floating-worlds { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
+.world-object { --size: clamp(155px, 16vw, 210px); position: absolute; display: flex; flex-direction: column; align-items: center; width: var(--size); left: var(--start-x); top: var(--start-y); transform: translate(-50%, -50%); color: #eaf4ff; text-align: center; text-decoration: none; pointer-events: auto; border-radius: 35%; -webkit-user-drag: none; }
+.world-art { width: 100%; height: clamp(135px, 21vmin, 195px); object-fit: contain; display: block; user-select: none; transform: rotate(var(--art-rotation, 0deg)) scale(1); transition: scale .25s; filter: drop-shadow(0 8px 24px #02040e90) drop-shadow(0 0 14px #81b7f526); }
+.world-object:hover, .world-object:focus-visible { color: #fff; z-index: 15 !important; }
+.world-object:hover .world-art, .world-object:focus-visible .world-art { scale: 1.09; }
+.object-label { display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; padding: 8px 12px; margin-top: 8px; font-size: 11px; font-weight: 550; color: #eaf4ff; background: #111b33c9; border: 1px solid #93bded40; border-radius: 25px; backdrop-filter: blur(12px); box-shadow: 0 4px 20px #02040e35; transition: color .2s, background .2s, border-color .2s; }
+.object-number { font: 8px/1 'Courier New', monospace; opacity: .55; }
+.object-arrow { font-size: 14px; line-height: 1; color: #b6d9ff; }
+.object-hint { display: block; font: italic 11px/1.5 Georgia, serif; color: #b7cee7; margin-top: 6px; opacity: 0; transition: opacity .2s; }
+.world-object:hover .object-label, .world-object:focus-visible .object-label { color: #071326; background: #bce6ff; border-color: #bce6ff; }
+.world-object:hover .object-arrow, .world-object:focus-visible .object-arrow { color: #071326; }
+.world-object:hover .object-hint, .world-object:focus-visible .object-hint { opacity: 1; }
+.orbit-footer { position: absolute; z-index: 20; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 28px 3.4%; pointer-events: none; }
+.orbit-footer-caption { color: #a7b9d5; font: 8px/1.6 'Courier New', monospace; letter-spacing: 1px; }
+.status-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #95d9eb; margin: 0 7px 1px 0; box-shadow: 0 0 8px #a5e2ff70; }
+.orbit-location { display: block; opacity: .55; margin: 5px 0 0 12px; font-size: 7px; letter-spacing: .7px; }
+.flight-status { display: flex; align-items: center; gap: 12px; color: #798eae; font: 8px/1.5 'Courier New', monospace; letter-spacing: 2px; }
+.flight-status > span { font-size: 24px; color: #a5d5f0; }
+.navigation-veil { position: fixed; inset: 0; z-index: 1000; pointer-events: none; opacity: 0; background: #02040b; }
+.playground[data-effect] { will-change: transform; }
+.playground[data-effect] .world-object { pointer-events: none; }
+.playground[data-effect] .world-art { transition: none; }
+@media (max-width: 800px) { .world-object { --size: 145px; } .world-art { height: 135px; } .object-label { font-size: 10px; padding: 7px 10px; gap: 6px; } }
+@media (max-width: 550px) {
+  .playground { min-height: 820px; }
+  .orbit-header { padding: 25px 6%; gap: 16px; }
+  .orbit-brand { font-size: 25px; gap: 8px; }
+  .orbit-brand > span { font-size: 20px; }
+  .orbit-header-note { padding-left: 14px; font-size: 6px; letter-spacing: .8px; }
+  .orbit-header .world-menu summary { gap: 10px; padding: 9px 11px; font-size: 10px; }
+  .world-object { --size: 112px; }
+  .world-art { height: 108px; }
+  .object-label { font-size: 9px; gap: 5px; padding: 7px 8px; margin-top: 6px; }
+  .object-number { display: none; }
+  .object-arrow { font-size: 12px; }
+  .object-hint { font-size: 9px; white-space: nowrap; }
+  .orbit-footer { padding: 24px 6%; gap: 12px; }
+  .orbit-footer-caption { font-size: 6px; letter-spacing: .6px; }
+  .orbit-location { margin-left: 0; font-size: 6px; }
+  .flight-status { font-size: 6px; letter-spacing: 1px; }
+  .flight-status > span { font-size: 20px; }
+}
+@media (max-width: 359px) { .orbit-header-note { display: none; } .world-object { --size: 100px; } .world-art { height: 100px; } .object-label { font-size: 8px; } }
+@media (prefers-reduced-motion: reduce) { .playground *, .playground *::before, .playground *::after { animation: none !important; transition: none !important; } }

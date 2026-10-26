@@ -12,6 +12,7 @@ using TaRge25Shop.ApplicationServices.Services;
 using TaRge25Shop.Controllers;
 using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.Models.Cocktail;
+using TaRge25Shop.Infrastructure;
 
 var checks = 0;
 void Check(bool condition, string message)
@@ -74,7 +75,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 builder.Logging.ClearProviders();
 builder.WebHost.UseUrls("http://127.0.0.1:0");
-builder.Services.AddControllersWithViews().AddApplicationPart(typeof(CocktailController).Assembly);
+builder.Services.AddControllersWithViews().AddEstonianUi().AddApplicationPart(typeof(CocktailController).Assembly);
 builder.Services.AddDataProtection().UseEphemeralDataProtectionProvider();
 builder.Services.AddSingleton<ICocktailServices>(service);
 await using var app = builder.Build();
@@ -88,10 +89,10 @@ try
     using var browser = new HttpClient(browserHandler) { BaseAddress = new Uri(address) };
 
     using var indexResponse = await browser.GetAsync("/Cocktail");
-    var index = await indexResponse.Content.ReadAsStringAsync();
+    var index = WebUtility.HtmlDecode(await indexResponse.Content.ReadAsStringAsync());
     if (!indexResponse.IsSuccessStatusCode) throw new Exception(index);
     var tokenMatch = Regex.Match(index, "name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"");
-    Check(index.Contains("Cocktail name") && index.Contains("href=\"/Cocktail\"") && tokenMatch.Success,
+    Check(index.Contains("Kokteili nimi") && index.Contains("href=\"/Cocktail\"") && tokenMatch.Success,
         "Search page renders with a navigation link and antiforgery token");
     var token = WebUtility.HtmlDecode(tokenMatch.Groups[1].Value);
 
@@ -116,24 +117,24 @@ try
 
     var beforeInvalid = api.Calls;
     using var blank = await Search("   ");
-    Check(blank.StatusCode == HttpStatusCode.OK && (await blank.Content.ReadAsStringAsync()).Contains("Enter a cocktail name."),
+    Check(blank.StatusCode == HttpStatusCode.OK && (await blank.Content.ReadAsStringAsync()).Contains("Sisesta kokteili nimi."),
         "Blank form submission redisplays field validation");
     using var tooLong = await Search(new string('a', 101));
-    Check((await tooLong.Content.ReadAsStringAsync()).Contains("100 characters or fewer"), "Overlong form input is rejected");
+    Check((await tooLong.Content.ReadAsStringAsync()).Contains("kuni 100"), "Overlong form input is rejected");
     var missing = await browser.GetStringAsync("/Cocktail/Cocktail");
     var longUrl = await browser.GetStringAsync("/Cocktail/Cocktail?cocktail=" + new string('a', 101));
-    Check(missing.Contains("Enter a cocktail name.") && longUrl.Contains("100 characters or fewer") && api.Calls == beforeInvalid,
+    Check(missing.Contains("Sisesta kokteili nimi.") && longUrl.Contains("kuni 100") && api.Calls == beforeInvalid,
         "Invalid direct URLs are handled without calling the API");
     using var noToken = await Search("Margarita", withToken: false);
     Check(noToken.StatusCode == HttpStatusCode.BadRequest, "POST searches require an antiforgery token");
 
     var noMatch = await browser.GetStringAsync("/Cocktail/Cocktail?cocktail=unknown");
-    Check(noMatch.Contains("No cocktails found") && noMatch.Contains("value=\"unknown\""),
+    Check(noMatch.Contains("kokteile ei leitud") && noMatch.Contains("value=\"unknown\""),
         "No matches display a helpful message and preserve the search name");
     foreach (var name in new[] { "unavailable", "bad-json", "null-json", "timeout" })
     {
         var failure = await browser.GetStringAsync("/Cocktail/Cocktail?cocktail=" + name);
-        Check(failure.Contains("The cocktail service is unavailable.") && failure.Contains($"value=\"{name}\""),
+        Check(failure.Contains("Kokteiliteenus pole praegu saadaval.") && failure.Contains($"value=\"{name}\""),
             $"API failure '{name}' renders a retryable search form");
     }
     Console.WriteLine($"All {checks} cocktail checks passed.");

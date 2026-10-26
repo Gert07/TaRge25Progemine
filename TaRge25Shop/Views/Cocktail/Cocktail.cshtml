@@ -14,24 +14,24 @@
     }
     <div class="col-md-8">
         <dl class="row">
-            <dt class="col-sm-3">Drink ID</dt>
+            <dt class="col-sm-3">Joogi tunnus</dt>
             <dd class="col-sm-9">@Model.IdDrink</dd>
-            <dt class="col-sm-3">Category</dt>
+            <dt class="col-sm-3">Kategooria</dt>
             <dd class="col-sm-9">@Model.Category</dd>
-            <dt class="col-sm-3">Alcoholic</dt>
+            <dt class="col-sm-3">Alkoholisisaldus</dt>
             <dd class="col-sm-9">@Model.Alcoholic</dd>
-            <dt class="col-sm-3">Glass</dt>
+            <dt class="col-sm-3">Klaas</dt>
             <dd class="col-sm-9">@Model.Glass</dd>
         </dl>
-        <h2>Ingredients and amounts</h2>
+        <h2>Koostisosad ja kogused</h2>
         <ul>
             @foreach (var ingredient in Model.Ingredients)
             {
                 <li>@ingredient</li>
             }
         </ul>
-        <h2>Instructions</h2>
+        <h2>Valmistamine</h2>
         <p class="text-break">@Model.Instructions</p>
     </div>
 </div>
-<a asp-action="Index" class="btn btn-primary mt-3">Search again</a>
+<a asp-action="Index" class="btn btn-primary mt-3">Otsi uuesti</a>

@@ -6,9 +6,9 @@ namespace TaRge25Shop.Models.Cocktail
     {
         public const int MaxNameLength = 100;
 
-        [Required(ErrorMessage = "Enter a cocktail name.")]
-        [StringLength(MaxNameLength, ErrorMessage = "Use a cocktail name of 100 characters or fewer.")]
-        [Display(Name = "Cocktail name")]
+        [Required(ErrorMessage = "Sisesta kokteili nimi.")]
+        [StringLength(MaxNameLength, ErrorMessage = "Kokteili nimi võib olla kuni 100 märki pikk.")]
+        [Display(Name = "Kokteili nimi")]
         public string CocktailName { get; set; } = string.Empty;
 
         public string? Message { get; set; }

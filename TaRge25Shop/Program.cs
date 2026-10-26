@@ -2,6 +2,7 @@ using TaRge25Shop.Core.ServiceInterface;
 using TaRge25Shop.ApplicationServices.Services;
 using TaRge25Shop.Data;
 using Microsoft.EntityFrameworkCore;
+using TaRge25Shop.Infrastructure;
 
 
 namespace TaRge25Shop
@@ -13,7 +14,7 @@ namespace TaRge25Shop
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddEstonianUi();
             builder.Services.AddDbContext<TaRge25ShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();

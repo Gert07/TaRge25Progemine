@@ -1,0 +1,21 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var links = new[] {
+        (Controller: "Spaceship", Label: "Kosmoselaevad"),
+        (Controller: "Cocktail", Label: "Kokteilid"),
+        (Controller: "RealEstate", Label: "Kinnisvara"),
+        (Controller: "Kindergarden", Label: "Lasteaiad"),
+        (Controller: "ChuckNorris", Label: "Chuck Norris"),
+        (Controller: "OpenWeather", Label: "Ilm")
+    };
+}
+<details class="world-menu">
+    <summary>Sihtkohad <span aria-hidden="true">↗</span></summary>
+    <nav aria-label="Sihtkohad">
+        @foreach (var link in links)
+        {
+            <a asp-controller="@link.Controller" asp-action="Index" aria-current="@(controller == link.Controller ? "page" : null)">@link.Label <span aria-hidden="true">↗</span></a>
+        }
+        <a asp-controller="Home" asp-action="Privacy">Privaatsus <span aria-hidden="true">↗</span></a>
+    </nav>
+</details>

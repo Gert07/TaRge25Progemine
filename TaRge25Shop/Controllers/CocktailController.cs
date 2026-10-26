@@ -50,7 +50,7 @@ namespace TaRge25Shop.Controllers
                 var result = await _cocktailServices.SearchByNameAsync(search.CocktailName, cancellationToken);
                 if (result == null)
                 {
-                    search.Message = $"No cocktails found for \"{search.CocktailName}\". Try another name.";
+                    search.Message = $"Nimele \"{search.CocktailName}\" vastavaid kokteile ei leitud. Proovi teist nime.";
                     return View("Index", search);
                 }
 
@@ -69,7 +69,7 @@ namespace TaRge25Shop.Controllers
                 _logger.LogWarning(exception, "Cocktail API returned an invalid response.");
             }
 
-            ModelState.AddModelError(string.Empty, "The cocktail service is unavailable. Please try again shortly.");
+            ModelState.AddModelError(string.Empty, "Kokteiliteenus pole praegu saadaval. Proovi veidi aja pärast uuesti.");
             return View("Index", search);
         }
 
@@ -77,12 +77,12 @@ namespace TaRge25Shop.Controllers
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                ModelState.TryAddModelError(nameof(CocktailSearchViewModel.CocktailName), "Enter a cocktail name.");
+                ModelState.TryAddModelError(nameof(CocktailSearchViewModel.CocktailName), "Sisesta kokteili nimi.");
             }
             else if (name.Length > CocktailSearchViewModel.MaxNameLength)
             {
                 ModelState.TryAddModelError(nameof(CocktailSearchViewModel.CocktailName),
-                    "Use a cocktail name of 100 characters or fewer.");
+                    "Kokteili nimi võib olla kuni 100 märki pikk.");
             }
         }
     }

@@ -3,10 +3,10 @@
     int rowNumber = 1;
 }
 <div>
-    <a asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-primary">Create Kindergarden</a>
+    <a asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-primary">Lisa lasteaed</a>
 </div>
 <div class="h1">
-    <h1>Kindergardens</h1>
+    <h1>Lasteaiad</h1>
 </div>
 
 <form method="get">
@@ -14,10 +14,10 @@
         <thead>
             <tr>
                 <th scope="col">Nr</th>
-                <th scope="col">Group Name</th>
-                <th scope="col">Children Count</th>
-                <th scope="col">Create Date</th>
-                <th scope="col">Teacher Name</th>
+                <th scope="col">Rühma nimi</th>
+                <th scope="col">Laste arv</th>
+                <th scope="col">Lisatud</th>
+                <th scope="col">Õpetaja nimi</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -31,9 +31,9 @@
                     <td>@kindergarden.CreatedAt</td>
                     <td>@kindergarden.TeacherName</td>
                     <td>
-                        <a asp-action="Details" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                        <a asp-action="Update" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Update</a>
-                        <a asp-action="Delete" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        <a asp-action="Details" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Vaata andmeid</a>
+                        <a asp-action="Update" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Muuda</a>
+                        <a asp-action="Delete" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-danger">Kustuta</a>
                     </td>
                 </tr>
             }

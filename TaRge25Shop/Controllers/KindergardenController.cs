@@ -98,7 +98,7 @@ namespace TaRge25Shop.Controllers
         {
             if (!vm.Id.HasValue)
             {
-                ModelState.AddModelError(string.Empty, "The kindergarten ID is missing.");
+                ModelState.AddModelError(string.Empty, "Lasteaia tunnus puudub.");
             }
 
             if (!ModelState.IsValid)

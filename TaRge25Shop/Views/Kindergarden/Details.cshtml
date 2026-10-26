@@ -1,7 +1,7 @@
 @model TaRge25Shop.Models.Kindergarden.KindergardenDetailViewModel
 
 <div>
-    Kindergarden Details
+    Lasteaia andmed
 </div>
 <form method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
@@ -67,8 +67,8 @@
     }
     else
     {
-        <p class="text-muted">No images uploaded.</p>
+        <p class="text-muted">Pilte pole lisatud.</p>
     }
 
-    <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
+    <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Tagasi loendisse</a>
 </form>

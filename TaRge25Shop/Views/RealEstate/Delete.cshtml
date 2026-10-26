@@ -1,7 +1,7 @@
 ﻿@model TaRge25Shop.Models.RealEstate.RealEstateDeleteVM
 
 <div>
-    RealEstate Delete
+    Kinnisvara kustutamine
 </div>
 <form method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
@@ -66,6 +66,6 @@
         </div>
     }
 
-    <input asp-action="DeleteConfirmation" asp-controller="RealEstate" type="submit" class="btn btn-danger" value="Delete RealEstate" />
-    <a asp-action="Index" asp-controller="RealEstate" class="btn btn-secondary">Back to list</a>
+    <input asp-action="DeleteConfirmation" asp-controller="RealEstate" type="submit" class="btn btn-danger" value="Kustuta kinnisvara" />
+    <a asp-action="Index" asp-controller="RealEstate" class="btn btn-secondary">Tagasi loendisse</a>
 </form>

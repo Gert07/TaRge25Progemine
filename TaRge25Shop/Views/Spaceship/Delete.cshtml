@@ -1,7 +1,7 @@
 ﻿@model TaRge25Shop.Models.Spaceship.SpaceshipDeleteViewModel
 
 <div>
-    Spaceship Delete
+    Kosmoselaeva kustutamine
 </div>
 <form method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
@@ -33,13 +33,13 @@
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="EnginePower" class="col-sm-2 col-form-label"></label>
+        <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input asp-for="CreatedAt" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="EnginePower" class="col-sm-2 col-form-label"></label>
+        <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
             <input asp-for="UpdatedAt" class="form-control-plaintext" disabled />
         </div>
@@ -50,6 +50,6 @@
         <partial name="Images" model="images" />
     }
 
-    <input asp-action="DeleteConfirmation" asp-controller="Spaceship" type="submit" class="btn btn-danger" value="Delete Spaceship" />
-    <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Back to list</a>
+    <input asp-action="DeleteConfirmation" asp-controller="Spaceship" type="submit" class="btn btn-danger" value="Kustuta kosmoselaev" />
+    <a asp-action="Index" asp-controller="Spaceship" class="btn btn-secondary">Tagasi loendisse</a>
 </form>
