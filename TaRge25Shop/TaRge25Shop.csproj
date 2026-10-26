@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>TaRge25Shop-OpenWeather-077a126e360bb3135684581bcde6b14e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
