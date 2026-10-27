@@ -3,13 +3,13 @@
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "Index";
     var isDashboard = currentController == "Home" && currentAction == "Index";
     var world = currentController switch {
-        "Spaceship" => (Theme: "space", Name: "Kosmoselaevad", Number: "01", Kicker: "SÜVAKOSMOS / LAEVASTIKU JUHTIMINE", Headline: "Tavapärasest kaugemale.", Description: "Loo oma laevastik ja avasta uusi maailmu.", Art: "scifispaceship.svg"),
-        "Cocktail" => (Theme: "cocktail", Name: "Kokteilid", Number: "02", Kicker: "PÄRAST PÄIKESELOOJANGUT / KOSMOSEBAAR", Headline: "Natuke rohkem särtsu.", Description: "Raputatud või segatud? Sinu järgmine lemmikkokteil ootab siin.", Art: "johnny-automatic-bar-drinks-colour.svg"),
-        "RealEstate" => (Theme: "estate", Name: "Kinnisvara", Number: "03", Kicker: "ELUPAIGAD / UUED KOORDINAADID", Headline: "Ruumi uutele algustele.", Description: "Uued paigad ja värsked vaated. Leia koht, mida kutsuda omaks.", Art: "real-estate-art.svg"),
-        "Kindergarden" => (Theme: "garden", Name: "Lasteaiad", Number: "04", Kicker: "VÄIKESED ASTRONAUDID / SUURED ALGUSED", Headline: "Siin kasvavad suured unistused.", Description: "Rõõmus väike maailm uutele avastajatele ja suurtele ideedele.", Art: "Kindergarden.svg"),
-        "ChuckNorris" => (Theme: "western", Name: "Chuck Norris", Number: "05", Kicker: "UNIVERSUMI ÄÄREALAD / ELAV LEGEND", Headline: "See pole tavaline puänt.", Description: "Uskumatud lood ja kõlav naer. Legendi seiklused jätkuvad.", Art: "chuk-norris.svg"),
-        "OpenWeather" => (Theme: "weather", Name: "Ilm", Number: "06", Kicker: "ATMOSFÄÄR / SIIN JA PRAEGU", Headline: "Midagi uut on õhus.", Description: "Iga linna kohal on oma taevas. Vaata, milline ilm sind ootab.", Art: "Raseone_Weather.svg"),
-        _ => (Theme: "neutral", Name: ViewData["Title"]?.ToString() ?? "Avaleht", Number: "00", Kicker: "MEIE VÄIKE UNIVERSUM", Headline: "Oma koht igaühele.", Description: "Mõned olulised asjad selle universuminurga kohta.", Art: "")
+        "Spaceship" => (Theme: "space", Name: "Kosmoselaevad", Number: "01", Art: "tie-fighter.webp"),
+        "Cocktail" => (Theme: "cocktail", Name: "Kokteilid", Number: "02", Art: "johnny-automatic-bar-drinks-colour.svg"),
+        "RealEstate" => (Theme: "estate", Name: "Kinnisvara", Number: "03", Art: "real-estate-art.svg"),
+        "Kindergarden" => (Theme: "garden", Name: "Lasteaiad", Number: "04", Art: "Kindergarden.svg"),
+        "ChuckNorris" => (Theme: "western", Name: "Chuck Norris", Number: "05", Art: "chuk-norris.svg"),
+        "OpenWeather" => (Theme: "weather", Name: "Ilm", Number: "06", Art: "Raseone_Weather.svg"),
+        _ => (Theme: "neutral", Name: ViewData["Title"]?.ToString() ?? "Avaleht", Number: "00", Art: "")
     };
 }
 <!DOCTYPE html>
@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/worlds.css" asp-append-version="true" />
+    @if (!isDashboard)
+    {
+        <link rel="stylesheet" href="~/css/space-cat.css" asp-append-version="true" />
+    }
     @if (isDashboard)
     {
         <link rel="stylesheet" href="~/css/playground.css" asp-append-version="true" />
@@ -41,14 +45,10 @@
         </header>
     }
     <main id="main-content" class="@(isDashboard ? "dashboard-content" : "world-main")" tabindex="-1">
-        @if (!isDashboard)
+        @if (!isDashboard && !string.IsNullOrEmpty(world.Art))
         {
             <section class="world-intro @(currentAction != "Index" ? "intro-compact" : "")" aria-label="@world.Name – sihtkoht">
-                <div class="world-intro-copy"><span class="world-kicker">@world.Kicker</span><p class="world-title">@world.Headline</p><p class="world-description">@world.Description</p></div>
-                @if (!string.IsNullOrEmpty(world.Art))
-                {
-                    <div class="world-mascot" aria-hidden="true"><img data-drift="mascot" src="~/images/worlds/@world.Art" alt="" draggable="false" asp-append-version="true" /><span class="mascot-caption">SEKTOR / @world.Number</span></div>
-                }
+                <div class="world-mascot" aria-hidden="true"><img data-drift="mascot" src="~/images/worlds/@world.Art" alt="" draggable="false" asp-append-version="true" /><span class="mascot-caption">SEKTOR / @world.Number</span></div>
             </section>
         }
         <div class="@(isDashboard ? "dashboard-body" : "module-surface world-surface")">@RenderBody()</div>
@@ -56,11 +56,16 @@
     @if (!isDashboard)
     {
         <footer class="world-footer"><a asp-controller="Home" asp-action="Index">← Tagasi avalehele</a><a asp-controller="Home" asp-action="Privacy">Privaatsus</a></footer>
+        <partial name="_SpaceCat" />
     }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/cosmos.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @if (!isDashboard)
+    {
+        <script src="~/js/space-cat.js" asp-append-version="true"></script>
+    }
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/js/validation-et.js" asp-append-version="true"></script>
 </body>

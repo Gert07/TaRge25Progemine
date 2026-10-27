@@ -21,6 +21,24 @@
 .planet-mars { left: 91%; top: 87%; width: clamp(150px, 21vw, 300px); opacity: .38; }
 .planet-red { left: 52%; top: 53%; width: clamp(130px, 18vw, 260px); opacity: .2; filter: saturate(.65) blur(.5px); }
 .planet-sun { left: 3%; top: 8%; width: clamp(170px, 23vw, 330px); opacity: .24; filter: drop-shadow(0 0 45px #f0ac4820); }
+.background-ship { position: absolute; z-index: 2; transform: translate(-50%, -50%); user-select: none; pointer-events: none; filter: drop-shadow(0 8px 18px #02040f85); }
+.background-ship > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.star-destroyer { left: 34%; top: 20%; width: clamp(161px, 20.3vw, 315px); aspect-ratio: 1880 / 1675; opacity: .55; z-index: 1; }
+.x-wing { width: clamp(70px, 9.1vw, 136.5px); aspect-ratio: 4032 / 2153; opacity: .5; }
+.fighter-flyby { visibility: hidden; z-index: 4; }
+.flyby-wingman { width: clamp(59.5px, 7.7vw, 115.5px); }
+.fighter-flyby.is-flying { visibility: visible; }
+.laser-bolt { position: absolute; z-index: 3; left: 0; top: 0; width: 30px; height: 2px; border-radius: 100%; background: #fff1ed; color: #ff514d; box-shadow: 0 0 4px currentColor, 0 0 10px currentColor; transform-origin: left center; pointer-events: none; }
+.laser-bolt.laser-imperial { width: 40px; color: #6dff9c; background: #e8fff0; }
+.laser-bolt.laser-attack { color: #ff6357; background: #fff0e9; }
+.hull-explosion { position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; }
+.explosion-core, .explosion-ring { position: absolute; border-radius: 50%; }
+.explosion-core { width: 46px; height: 46px; left: -23px; top: -23px; background: radial-gradient(circle, #ffffed 5%, #ffdf8c 20%, #ff8b38b0 45%, #fa492600 72%); box-shadow: 0 0 20px #ffa24f70; }
+.explosion-ring { width: 40px; height: 40px; left: -20px; top: -20px; border: 1px solid #ffc97b; box-shadow: 0 0 8px #ff9f4d80; }
+.explosion-spark { position: absolute; left: 0; top: 0; width: 9px; height: 2px; border-radius: 50%; background: #ffe9b0; box-shadow: 0 0 5px #ff963f; transform-origin: left center; }
+.world-page .background-ship { opacity: .45; }
+.world-page .star-destroyer { opacity: .36; }
+.world-page .fighter-flyby { opacity: .3; }
 [data-drift] { backface-visibility: hidden; }
 [data-drift].drift-ready { left: 0; top: 0; will-change: transform; }
 
@@ -40,17 +58,12 @@
 .world-id > span { margin-left: 8px; }
 .world-main { overflow-x: clip; position: relative; max-width: 1350px; margin: auto; padding: 0 5%; }
 .world-main:focus { outline: none; }
-.world-intro { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 25px; min-height: 315px; padding-block: 40px; }
-.world-intro-copy { position: relative; z-index: 1; max-width: 710px; }
-.world-kicker { font: 9px/1.6 'Courier New', monospace; letter-spacing: 2px; color: var(--world-accent); }
-.world-title { font: 600 clamp(42px, 5.2vw, 76px)/1.03 'Arial', sans-serif; letter-spacing: -2.7px; margin: 17px 0 18px; text-wrap: balance; }
-.world-description { max-width: 490px; color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0; }
+.world-intro { position: relative; display: flex; justify-content: flex-end; align-items: center; min-height: 315px; padding-block: 40px; }
 .world-mascot { position: relative; width: 235px; height: 235px; flex-shrink: 0; margin-right: 25px; }
 .world-mascot::before { content: ''; position: absolute; inset: 12%; background: radial-gradient(ellipse, var(--world-soft), transparent 70%); filter: blur(15px); }
 .world-mascot > img { position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: contain; transform: translate(-50%, -50%); filter: drop-shadow(0 10px 20px #00000050); }
 .mascot-caption { position: absolute; right: 0; bottom: -8px; color: var(--world-accent); font: 8px/1.5 'Courier New', monospace; letter-spacing: 2px; }
 .intro-compact { min-height: 225px; padding-block: 28px; }
-.intro-compact .world-title { font-size: clamp(35px, 4vw, 54px); }
 .intro-compact .world-mascot { width: 175px; height: 175px; }
 .world-surface.module-surface { position: relative; border: 1px solid var(--line); border-radius: 14px; background: var(--world-panel); color: var(--ink); padding: clamp(22px, 3vw, 40px); margin-bottom: 0; box-shadow: 0 15px 60px #02040f40; backdrop-filter: blur(18px); min-height: 210px; }
 .world-surface h1 { font-size: 29px; letter-spacing: -.8px; margin-top: 0; }
@@ -87,8 +100,6 @@
 .world-garden { --world-accent: #d7df9a; --world-soft: #d7df9a16; }
 .world-western { --world-accent: #efbc9d; --world-soft: #efbc9d18; }
 .world-weather { --world-accent: #b1d6ff; --world-soft: #b1d6ff16; }
-.world-cocktail .world-title { font-family: Georgia, serif; font-style: italic; font-weight: 400; }
-.world-garden .world-title { font-family: 'Trebuchet MS', sans-serif; }
 .motion-paused *, .motion-suspended * { animation-play-state: paused !important; }
 @keyframes random-starlight { from { opacity: var(--star-alpha); transform: translate(0, 0); } to { opacity: .12; transform: translate(var(--star-dx), var(--star-dy)); } }
 @media (max-width: 700px) {
@@ -98,16 +109,11 @@
   .world-id > span { display: none; }
   .world-menu summary { padding: 10px 13px; gap: 15px; font-size: 11px; }
   .world-main { padding-inline: 6%; }
-  .world-intro { min-height: 260px; gap: 10px; padding-block: 32px; }
-  .world-intro-copy { max-width: 75%; }
-  .world-title { font-size: clamp(30px, 10vw, 39px); letter-spacing: -1.6px; margin-block: 13px; }
-  .world-kicker { font-size: 7px; letter-spacing: 1.2px; }
-  .world-description { font-size: 11px; line-height: 1.7; }
+  .world-intro { min-height: 260px; padding-block: 32px; }
   .world-mascot { width: 120px; height: 135px; margin: 25px -8px 0 -25px; }
   .mascot-caption { font-size: 6px; bottom: -12px; }
   .intro-compact { min-height: 205px; }
   .intro-compact .world-mascot { width: 105px; height: 115px; }
-  .intro-compact .world-title { font-size: 32px; }
   .world-surface.module-surface { padding: 23px 19px; border-radius: 12px; }
   .world-surface h1 { font-size: 24px; }
   .world-surface > p { font-size: 12px; }
@@ -119,7 +125,7 @@
   .celestial-planet.planet-red { width: 140px; }
   .celestial-planet.planet-sun { width: 190px; }
 }
-@media (prefers-reduced-motion: reduce) { .space-star, .world-page *, .world-page *::before, .world-page *::after { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .space-star, .world-page *, .world-page *::before, .world-page *::after { animation: none !important; transition: none !important; } .laser-bolt, .fighter-flyby, .hull-explosion { display: none; } }
 .file-picker { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .file-picker-status { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
 @media (max-width: 359px) { .world-id { display: none; } }
