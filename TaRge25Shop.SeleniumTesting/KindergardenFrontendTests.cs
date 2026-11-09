@@ -6,6 +6,7 @@ using Xunit;
 
 namespace TaRge25Shop.SeleniumTesting
 {
+
     public class KindergardenFrontendTests
     {
         public static string thisRunGuid { get; set; }
@@ -101,20 +102,20 @@ namespace TaRge25Shop.SeleniumTesting
             }
             //andmete kogumine pärast reloadi
             IWebElement details_KindergardenId = driver.FindElement(By.Id("Details_KindergardenId"));
-            var details_id = details_KindergardenId.Text;
+            var details_id = details_KindergardenId.GetDomProperty("value");
 
             IWebElement details_KindergardenGroupName = driver.FindElement(By.Id("Details_KindergardenGroupName"));
-            var details_groupName = details_KindergardenGroupName.Text;
+            var details_groupName = details_KindergardenGroupName.GetDomProperty("value");
 
             IWebElement details_KindergardenTeacherName = driver.FindElement(By.Id("Details_KindergardenTeacherName"));
-            var details_teacherName = details_KindergardenTeacherName.Text;
+            var details_teacherName = details_KindergardenTeacherName.GetDomProperty("value");
 
             IWebElement details_KindergardenChildrenCount = driver.FindElement(By.Id("Details_KindergardenChildrenCount"));
-            var details_childrenCount = details_KindergardenChildrenCount.Text;
+            var details_childrenCount = details_KindergardenChildrenCount.GetDomProperty("value");
 
             IWebElement details_KindergardenName = driver.FindElement(By.Id("Details_KindergardenName"));
-            var details_kindergardenName = details_KindergardenName.Text;
-
+            var details_kindergardenName = details_KindergardenName.GetDomProperty("value");
+            
             driver.Quit();
             //kontroll
             Assert.True(isObjectFound);

@@ -8,6 +8,8 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+[assembly: TestCaseOrderer("TaRge25Shop.SeleniumTesting.PriorityOrderer", "TaRge25Shop.SeleniumTesting")]
+
 namespace TaRge25Shop.SeleniumTesting
 {
     //järjesti klass, mis omab omadusi mille järgi teste saab järjestada
@@ -24,6 +26,7 @@ namespace TaRge25Shop.SeleniumTesting
     //järjestab nad vastavalt "Order" omadusele
     public class PriorityOrderer : ITestCaseOrderer
     {
+
         //meetod võtab sisse kõik test cased
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
             where TTestCase : ITestCase
@@ -49,9 +52,6 @@ namespace TaRge25Shop.SeleniumTesting
             }).ToList(); //pannakse loendisse, ToList on linq meetod.
         }
     }
-    //enne testi klassi kirjeldatakse ära mille järgi testid sorteeritakse
-    //tunnuse "TestCaseOrderer"i järgi. Sulgude vahel esimene väärtus on klassi asukoht ise, teine väärtus on nimeruum kus klass asub.
-    [TestCaseOrderer("TaRge25Shop.SeleniumTesting.PriorityOrderer", "TaRge25Shop.SeleniumTesting")]
     public class SpaceshipFrontendTests
     {
         public static string thisRunGuid { get; set; }
