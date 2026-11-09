@@ -24,10 +24,4 @@
     <ProjectReference Include="..\TaRge25Shop\TaRge25Shop.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="geckodriver.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
