@@ -9,45 +9,45 @@
     <input asp-for="UpdatedAt" type="hidden" />
 
     <div class="form-group row">
-        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+        <label asp-for="Id" for="Delete_KindergardenId" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Id" class="form-control-plaintext" diasbled />
+            <input asp-for="Id" id="Delete_KindergardenId" class="form-control-plaintext" diasbled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="GroupName" for="Delete_KindergardenGroupName" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="GroupName" class="form-control-plaintext" diasbled />
+            <input asp-for="GroupName" id="Delete_KindergardenGroupName" class="form-control-plaintext" diasbled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="KindergardenName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="KindergardenName" for="Delete_KindergardenName" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="KindergardenName" class="form-control-plaintext" disabled />
+            <input asp-for="KindergardenName" id="Delete_KindergardenName" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
+        <label asp-for="ChildrenCount" for="Delete_KindergardenChildrenCount" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="ChildrenCount" class="form-control-plaintext" disabled />
+            <input asp-for="ChildrenCount" id="Delete_KindergardenChildrenCount" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="TeacherName" for="Delete_KindergardenTeacherName" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="TeacherName" class="form-control-plaintext" disabled />
+            <input asp-for="TeacherName" id="Delete_KindergardenTeacherName" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
+        <label asp-for="CreatedAt" for="Delete_KindergardenCreatedAt" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="CreatedAt" class="form-control-plaintext" disabled />
+            <input asp-for="CreatedAt" id="Delete_KindergardenCreatedAt" class="form-control-plaintext" disabled />
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
+        <label asp-for="UpdatedAt" for="Delete_KindergardenUpdatedAt" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="UpdatedAt" class="form-control-plaintext" disabled />
+            <input asp-for="UpdatedAt" id="Delete_KindergardenUpdatedAt" class="form-control-plaintext" disabled />
         </div>
     </div>
 
@@ -66,6 +66,6 @@
         </div>
     }
 
-    <input asp-action="DeleteConfirmation" asp-controller="Kindergarden" type="submit" class="btn btn-danger" value="Delete Kindergarden" />
+    <input id="Delete_Delete" asp-action="DeleteConfirmation" asp-controller="Kindergarden" type="submit" class="btn btn-danger" value="Delete Kindergarden" />
     <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
 </form>
