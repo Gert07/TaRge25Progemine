@@ -3,14 +3,14 @@
     int rowNumber = 1;
 }
 <div>
-    <a asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-primary">Create Spaceship</a>
+    <a id="CreateInIndex" asp-action="Create" asp-controller="Spaceship" type="submit" class="btn btn-primary">Create Spaceship</a>
 </div>
 <div class="h1">
     <h1>SpaceShips</h1>
 </div>
 
     <form method="get">
-        <table class="table table-hover">
+        <table id="IndexTable" class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Nr</th>
@@ -24,17 +24,17 @@
             <tbody>
                 @foreach (var spaceship in Model)
                     {
-                        <tr>
+                        <tr data-record-id="@spaceship.Id">
                             <td>@(rowNumber++)</td>
-                            <td>@spaceship.Name</td>
-                            <td>@spaceship.ShipType</td>
-                            <td>@spaceship.CreatedAt</td>
-                            <td>@spaceship.Crew</td>
+                            <td id="IndexNameSpaceship">@spaceship.Name</td>
+                            <td id="IndexTypeSpaceship">@spaceship.ShipType</td>
+                            <td id="IndexBuiltDateSpaceship">@spaceship.CreatedAt</td>
+                            <td id="IndexCrewSpaceship">@spaceship.Crew</td>
                             <td id="IndexActionsSpaceship">
-                                <span id="IndexSpaceshipsId" hidden>@spaceship.Id</span>
-                                <a asp-action="Details" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                                <a asp-action="Update" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Update</a>
-                                <a asp-action="Delete" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                <span id="IndexSpaceshipsId-@spaceship.Id" hidden>@spaceship.Id</span>
+                                <a id="IndexSpaceshipDetails" asp-action="Details" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                                <a id="IndexSpaceshipUpdate" asp-action="Update" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-primary">Update</a>
+                                <a id="IndexSpaceshipDelete" asp-action="Delete" asp-controller="Spaceship" asp-route-id="@spaceship.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                             </td>
                         </tr>
                     }
