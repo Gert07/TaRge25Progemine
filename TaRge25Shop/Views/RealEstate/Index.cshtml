@@ -4,14 +4,14 @@
     int rowNumber = 1;
 }
 <div>
-    <a asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-primary">Create RealEstate</a>
+    <a id="CreateInIndex" asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-primary">Create RealEstate</a>
 </div>
 <div class="h1">
     <h1>RealEstate</h1>
 </div>
 
 <form method="get">
-    <table class="table table-hover">
+    <table id="IndexTable" class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">Nr</th>
@@ -27,14 +27,14 @@
             {
                 <tr>
                     <td>@(rowNumber++)</td>
-                    <td>@realEstate.Area</td>
-                    <td>@realEstate.Location</td>
-                    <td>@realEstate.CreatedAt</td>
-                    <td>@realEstate.BuildingType</td>
-                    <td>
-                        <a asp-action="Details" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                        <a asp-action="Update" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Update</a>
-                        <a asp-action="Delete" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    <td id="IndexAreaRealEstate">@realEstate.Area</td>
+                    <td id="IndexLocationRealEstate">@realEstate.Location</td>
+                    <td id="IndexCreatedDateRealEstate">@realEstate.CreatedAt</td>
+                    <td id="IndexBuildingTypeRealEstate">@realEstate.BuildingType</td>
+                    <td id="IndexActionsRealEstate">
+                        <a id="IndexRealEstateDetails" asp-action="Details" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a id="IndexRealEstateUpdate" asp-action="Update" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-primary">Update</a>
+                        <a id="IndexRealEstateDelete" asp-action="Delete" asp-controller="RealEstate" asp-route-id="@realEstate.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                     </td>
                 </tr>
             }

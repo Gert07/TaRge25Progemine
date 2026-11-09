@@ -21,30 +21,30 @@ else
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group row">
-        <label asp-for="Area" class="col-sm-2 col-form-label"></label>
+        <label asp-for="Area" for="CU_AreaEntryRealEstate" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Area" class="form-control" />
+            <input asp-for="Area" id="CU_AreaEntryRealEstate" class="form-control" />
             <span asp-validation-for="Area" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="Location" class="col-sm-2 col-form-label"></label>
+        <label asp-for="Location" for="CU_LocationEntryRealEstate" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Location" class="form-control" />
+            <input asp-for="Location" id="CU_LocationEntryRealEstate" class="form-control" />
             <span asp-validation-for="Location" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="RoomNumber" class="col-sm-2 col-form-label"></label>
+        <label asp-for="RoomNumber" for="CU_RoomNumberEntryRealEstate" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="RoomNumber" class="form-control" />
+            <input asp-for="RoomNumber" id="CU_RoomNumberEntryRealEstate" class="form-control" />
             <span asp-validation-for="RoomNumber" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="BuildingType" class="col-sm-2 col-form-label"></label>
+        <label asp-for="BuildingType" for="CU_BuildingTypeEntryRealEstate" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="BuildingType" class="form-control" />
+            <input asp-for="BuildingType" id="CU_BuildingTypeEntryRealEstate" class="form-control" />
             <span asp-validation-for="BuildingType" class="text-danger"></span>
         </div>
     </div>
@@ -82,11 +82,11 @@ else
 
     @if (Model.Id.HasValue)
     {
-        <input asp-action="Update" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Update RealEstate" />
+        <input id="CU_UpdateRealEstate" asp-action="Update" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Update RealEstate" />
     }
     else
     {
-        <input asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Create RealEstate" />
+        <input id="CU_CreateRealEstate" asp-action="Create" asp-controller="RealEstate" type="submit" class="btn btn-success" value="Create RealEstate" />
     }
 
     <a asp-action="Index" asp-controller="RealEstate" class="btn btn-secondary">Back to list</a>
