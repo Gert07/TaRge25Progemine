@@ -3,14 +3,14 @@
     int rowNumber = 1;
 }
 <div>
-    <a asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-primary">Create Kindergarden</a>
+    <a id="CreateInIndex" asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-primary">Create Kindergarden</a>
 </div>
 <div class="h1">
     <h1>Kindergardens</h1>
 </div>
 
 <form method="get">
-    <table class="table table-hover">
+    <table id="IndexTable" class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">Nr</th>
@@ -24,16 +24,16 @@
         <tbody>
             @foreach (var kindergarden in Model)
             {
-                <tr>
+                <tr data-record-id="@kindergarden.Id">
                     <td>@(rowNumber++)</td>
-                    <td>@kindergarden.GroupName</td>
-                    <td>@kindergarden.ChildrenCount</td>
-                    <td>@kindergarden.CreatedAt</td>
-                    <td>@kindergarden.TeacherName</td>
-                    <td>
-                        <a asp-action="Details" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                        <a asp-action="Update" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Update</a>
-                        <a asp-action="Delete" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    <td id="IndexGroupNameKindergarden">@kindergarden.GroupName</td>
+                    <td id="IndexChildrenCountKindergarden">@kindergarden.ChildrenCount</td>
+                    <td id="IndexCreatedDateKindergarden">@kindergarden.CreatedAt</td>
+                    <td id="IndexTeacherNameKindergarden">@kindergarden.TeacherName</td>
+                    <td id="IndexActionsKindergarden">
+                        <a id="IndexKindergardenDetails" asp-action="Details" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a id="IndexKindergardenUpdate" asp-action="Update" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-primary">Update</a>
+                        <a id="IndexKindergardenDelete" asp-action="Delete" asp-controller="Kindergarden" asp-route-id="@kindergarden.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                     </td>
                 </tr>
             }

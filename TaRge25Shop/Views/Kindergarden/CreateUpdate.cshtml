@@ -14,37 +14,37 @@ else
 }
 
 <form method="post" enctype="multipart/form-data">
-    <input asp-for="Id" type="hidden" />
+    <input asp-for="Id" id="CU_KindergardenId" type="hidden" />
     <input asp-for="CreatedAt" type="hidden" />
     <input asp-for="UpdatedAt" type="hidden" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group row">
-        <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="GroupName" for="CU_GroupNameEntryKindergarden" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="GroupName" class="form-control" />
+            <input asp-for="GroupName" id="CU_GroupNameEntryKindergarden" class="form-control" />
             <span asp-validation-for="GroupName" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="KindergardenName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="KindergardenName" for="CU_KindergardenNameEntryKindergarden" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="KindergardenName" class="form-control" />
+            <input asp-for="KindergardenName" id="CU_KindergardenNameEntryKindergarden" class="form-control" />
             <span asp-validation-for="KindergardenName" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
+        <label asp-for="ChildrenCount" for="CU_ChildrenCountEntryKindergarden" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="ChildrenCount" class="form-control" />
+            <input asp-for="ChildrenCount" id="CU_ChildrenCountEntryKindergarden" class="form-control" />
             <span asp-validation-for="ChildrenCount" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
-        <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
+        <label asp-for="TeacherName" for="CU_TeacherNameEntryKindergarden" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="TeacherName" class="form-control" />
+            <input asp-for="TeacherName" id="CU_TeacherNameEntryKindergarden" class="form-control" />
             <span asp-validation-for="TeacherName" class="text-danger"></span>
         </div>
     </div>
@@ -82,11 +82,11 @@ else
 
     @if (Model.Id.HasValue)
     {
-        <input asp-action="Update" asp-controller="Kindergarden" type="submit" class="btn btn-success" value="Update Kindergarden" />
+        <input id="CU_UpdateKindergarden" asp-action="Update" asp-controller="Kindergarden" type="submit" class="btn btn-success" value="Update Kindergarden" />
     }
     else
     {
-        <input asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-success" value="Create Kindergarden" />
+        <input id="CU_CreateKindergarden" asp-action="Create" asp-controller="Kindergarden" type="submit" class="btn btn-success" value="Create Kindergarden" />
     }
 
     <a asp-action="Index" asp-controller="Kindergarden" class="btn btn-secondary">Back to list</a>
