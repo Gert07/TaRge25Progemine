@@ -8,7 +8,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace TARge25Shop.SeleniumTesting
+namespace TaRge25Shop.SeleniumTesting
 {
     //järjesti klass, mis omab omadusi mille järgi teste saab järjestada
     public class OrderAttribute : Attribute
@@ -51,7 +51,7 @@ namespace TARge25Shop.SeleniumTesting
     }
     //enne testi klassi kirjeldatakse ära mille järgi testid sorteeritakse
     //tunnuse "TestCaseOrderer"i järgi. Sulgude vahel esimene väärtus on klassi asukoht ise, teine väärtus on nimeruum kus klass asub.
-    [TestCaseOrderer("TARge25Shop.SeleniumTesting.PriorityOrderer", "TARge25Shop.SeleniumTesting")]
+    [TestCaseOrderer("TaRge25Shop.SeleniumTesting.PriorityOrderer", "TaRge25Shop.SeleniumTesting")]
     public class SpaceshipFrontendTests
     {
         public static string thisRunGuid { get; set; }
@@ -321,7 +321,7 @@ namespace TARge25Shop.SeleniumTesting
             //firefoxi käskiv ja juhtiv draiver
             IWebDriver driver = new FirefoxDriver();
             //aadress millele draiver navigeerib
-            driver.Url = "https://localhost:7227/";
+            driver.Url = "http://localhost:5000/";
             //lehelt otsitav element
             IWebElement navigateToSpaceship = driver.FindElement(By.LinkText("Spaceship"));
             //selle elemendiga tehtav tegevus
