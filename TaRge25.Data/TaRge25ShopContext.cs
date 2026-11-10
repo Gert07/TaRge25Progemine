@@ -1,9 +1,12 @@
 ﻿using TaRge25Shop.Core.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using TaRge25Shop.Core.Domain;
 
 namespace TaRge25Shop.Data
 {
-    public class TaRge25ShopContext : DbContext
+    public class TaRge25ShopContext : IdentityDbContext<ApplicationUser>
     {
         //see class tuleb teha DbContextist, et saaksime kasutada
         //Entity Frameworki andmebaasi operatsioone
@@ -16,5 +19,7 @@ namespace TaRge25Shop.Data
         public DbSet<RealEstate> RealEstates { get; set; }
         public DbSet<FileToApi> FileToApi { get; set; }
         public DbSet<FileToDatabase> FileToDatabases { get; set; }
+
+        //public DbSet<IdentityRole> ApplicationUsers { get; set; }
     }
 }
