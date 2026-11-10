@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TaRge25Shop.Core.Dto;
 
 namespace TaRge25Shop.Core.ServiceInterface
 {
     public interface IEmailServices
     {
-
-
-        public void SendEmail()
-        {
-
-        }
+        void SendEmail(EmailDto dto);
     }
 }

@@ -1,0 +1,37 @@
+@model TaRge25Shop.Core.Dto.EmailDto
+
+@{
+    ViewData["Title"] = "Send email";
+}
+
+<h1>Send email</h1>
+
+@if (TempData["EmailSent"] is true)
+{
+    <p class="alert alert-success" role="status">Email sent.</p>
+}
+
+<form asp-action="SendEmail" method="post" enctype="multipart/form-data" class="col-md-6">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="mb-3">
+        <label asp-for="To" class="form-label"></label>
+        <input asp-for="To" class="form-control" />
+        <span asp-validation-for="To" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Subject" class="form-label"></label>
+        <input asp-for="Subject" class="form-control" />
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Body" class="form-label"></label>
+        <textarea asp-for="Body" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Body" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Attachments" class="form-label"></label>
+        <input asp-for="Attachments" type="file" multiple class="form-control" />
+        <span asp-validation-for="Attachments" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
